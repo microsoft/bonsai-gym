@@ -30,7 +30,6 @@ setup(
     ],
     keywords="bonsai",
     install_requires=[
-        "bonsai-ai>=2.0.19",
         "gym==0.9.7",
         "bonsai-common @ git+https://github.com/microsoft/bonsai-common",
     ],

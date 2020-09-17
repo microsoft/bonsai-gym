@@ -1,10 +1,10 @@
 # Bonsai Gym Common
-A python library for integrating Bonsai BRAIN with Open AI Gym environments.
 
+A python library for integrating Bonsai BRAIN with Open AI Gym environments.
 
 ## Bonsai Gym Common
-A python library for integrating Bonsai BRAIN with Open AI Gym environments.
 
+A python library for integrating Bonsai BRAIN with Open AI Gym environments.
 
 ## Installation
 
@@ -12,10 +12,10 @@ Install the latest stable from PyPI:
 
 `$ pip install bonsai-gym`
 
-
 ## Usage
+
 Once installed, import `bonsai_gym` in order to access
-base class `GymSimulator`, which implements all of the
+base class `GymSimulator3`, which implements all of the
 environment-independent Bonsai SDK integrations necessary to
 train a Bonsai BRAIN to play an OpenAI Gym simulator.
 
@@ -30,7 +30,7 @@ train a Bonsai BRAIN to play an OpenAI Gym simulator.
 
 # Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 

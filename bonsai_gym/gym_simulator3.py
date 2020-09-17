@@ -6,7 +6,6 @@ from time import time
 
 import gym
 from bonsai_common import SimulatorSession
-from bonsai3 import ServiceConfig
 from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface
 
@@ -25,19 +24,11 @@ class GymSimulator3(SimulatorSession):
 
     def __init__(
         self,
-        config: Union[BonsaiClientConfig, ServiceConfig],
+        config: BonsaiClientConfig,
         iteration_limit: int = 0,
         skip_frame: int = 1,
     ) -> None:
-        if isinstance(config, ServiceConfig):
-            client_config = BonsaiClientConfig(
-                workspace=config.workspace, access_key=config.access_key
-            )
-            client_config.server = config.server
-            client_config.simulator_context = config.simulator_context
-        else:
-            client_config = config
-        super(GymSimulator3, self).__init__(client_config)
+        super(GymSimulator3, self).__init__(config)
 
         # create and reset the gym environment
         self._env = gym.make(self.environment_name)
