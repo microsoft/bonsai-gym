@@ -24,9 +24,9 @@ train a Bonsai BRAIN to play an OpenAI Gym simulator.
 ```python
     import gym
 
-    from bonsai_gym import GymSimulator
+    from bonsai_gym import GymSimulator3
 
-    class CartPoleSimulator(GymSimulator):
+    class CartPoleSimulator(GymSimulator3):
         # Perform cartpole-specific integrations here.
 ```
 
