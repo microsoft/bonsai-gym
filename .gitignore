@@ -1,0 +1,8 @@
+# Mac file generated via Finder
+*.DS_Store
+
+# Python generated files
+*.py[cod]
+__pycache__/
+.pytest_cache/
+*egg-info/
