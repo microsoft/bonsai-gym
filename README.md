@@ -1,8 +1,8 @@
-# Bonsai Gym Common
+# Bonsai Gym
 
 A python library for integrating Bonsai BRAIN with Open AI Gym environments.
 
-## Bonsai Gym Common
+## Bonsai Gym
 
 A python library for integrating Bonsai BRAIN with Open AI Gym environments.
 
@@ -55,6 +55,28 @@ See [CartPole sample](samples/gym-cartpole-sample/cartpole_simulator.py)
         config = BonsaiClientConfig(argv=sys.argv)
         sim = CartPole(config)
         sim.run_gym()
+```
+
+## Running Simulator
+
+Simulators need two environment variables set to be able to attach to the platform.
+
+The first is `SIM_ACCESS_KEY`. You can create one from the `Account Settings` page.
+You have one chance to copy the key once it has been created. Make sure you don't enter
+the ID.
+
+The second is `SIM_WORKSPACE`. You can find this in the URL after `/workspaces/` once
+you are logged in to the platform.
+
+There is also an optional `SIM_API_HOST` key, but if it is not set it will default to `https://api.bons.ai`.
+
+If you're launching your simulator from the command line, make sure that you have these two
+environment variables set. If you like, you could use the following example script:
+
+```sh
+export SIM_WORKSPACE=<your-workspace-id>
+export SIM_ACCESS_KEY=<your-access-key>
+python3 my_sim.py
 ```
 
 # Contributing
