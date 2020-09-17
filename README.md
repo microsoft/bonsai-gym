@@ -10,7 +10,7 @@ A python library for integrating Bonsai BRAIN with Open AI Gym environments.
 
 Install the latest from github.
 
-**NOTE** - The bonsai-gym located on pypi is an older release that we no longer support. We have no plans to publish this to ypi
+**NOTE** - The bonsai-gym located on pypi is an older release that we no longer support. We have no plans to publish this to pypi
 
 `$ pip install git+https://github.com/microsoft/bonsai-gym`
 
