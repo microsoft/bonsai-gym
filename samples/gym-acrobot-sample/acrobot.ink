@@ -1,10 +1,6 @@
 inkling "2.0"
 
 using Number
-experiment {
-    num_workers: "3",
-    env_runners_per_sampler: "2"
-}
 
 type GameState {
     cos_theta0: number,

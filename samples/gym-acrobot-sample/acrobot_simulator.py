@@ -34,7 +34,6 @@ class Acrobot(GymSimulator3):
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
     config = BonsaiClientConfig(argv=sys.argv)
-    print(config)
 
     sim = Acrobot(config, iteration_limit=500)
     sim.run_gym()

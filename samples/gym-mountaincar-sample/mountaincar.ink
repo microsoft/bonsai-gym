@@ -1,10 +1,6 @@
 inkling "2.0"
 
 using Number
-experiment {
-    num_workers: "3",
-    env_runners_per_sampler: "2"
-}
 
 type GameState {
     x_position: number,
@@ -25,9 +21,6 @@ simulator MountainCarSimulator(action: Action, config: MountainCarConfig): GameS
 
 graph (input: GameState): Action {
     concept HighScore(input): Action {
-        experiment {
-            random_seed: "42"
-        }
         curriculum {
             source MountainCarSimulator
         }

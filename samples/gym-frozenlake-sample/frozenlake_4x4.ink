@@ -2,12 +2,6 @@ inkling "2.0"
 
 using Number
 
-experiment {
-    random_seed: "20",
-    num_workers: "3",
-    env_runners_per_sampler: "2"
-}
-
 type GameState {
     current_pos: Number.Int8<0 .. 15>
 }

@@ -1,10 +1,6 @@
 inkling "2.0"
 
 using Number
-experiment {
-    num_workers: "3",
-    env_runners_per_sampler: "2"
-}
 
 type GameState {
     position: Number.Float32,
@@ -27,9 +23,6 @@ simulator CartpoleSimulator(action: Action, config: CartPoleConfig): GameState {
 
 graph (input: GameState): Action {
     concept Balance(input): Action {
-        experiment {
-            random_seed: "42"
-        }
         curriculum {
             source CartpoleSimulator
         }
