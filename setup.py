@@ -5,12 +5,9 @@ logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 log.debug("Running setup...")
 
-version = {}
-with open("./bonsai_gym/version.py") as fp:
-    exec(fp.read(), version)
 setup(
     name="bonsai-gym",
-    version=version["__version__"],
+    version="3.0.0",
     description="A python library for integrating Bonsai BRAIN \
     with Open AI Gym environments.",
     long_description=open("README.md").read(),
