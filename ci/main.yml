@@ -14,7 +14,7 @@ name: $(BuildDefinitionName)_$(SourceBranchName)_$(BuildID)
 stages:
   - stage: Build
     jobs:
-      - job: BonsaiCommonWheel
+      - job: BonsaiGymWheel
         timeoutInMinutes: 60
         cancelTimeoutInMinutes: 5
         strategy:
@@ -31,7 +31,7 @@ stages:
             #   imageName: 'windows-2019'
             #   python.version: '3.6'
             #   WHEELS_PATH: '\dist\*.whl'
-        displayName: Bonsai Common Wheels
+        displayName: Bonsai Gym Wheel
         pool:
           vmImage: $(imageName)
         steps:
