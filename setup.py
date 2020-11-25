@@ -28,7 +28,7 @@ setup(
     keywords="bonsai",
     install_requires=[
         "gym==0.9.7",
-        "bonsai-common @ git+https://github.com/microsoft/bonsai-common",
+        "bonsai-common",
     ],
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, " "!=3.3.*, !=3.4.*",
     packages=find_packages(),
