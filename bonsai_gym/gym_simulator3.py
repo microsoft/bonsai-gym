@@ -23,10 +23,7 @@ class GymSimulator3(SimulatorSession):
     environment_name = ""  # name of the OpenAI Gym environment
 
     def __init__(
-        self,
-        config: BonsaiClientConfig,
-        iteration_limit: int = 0,
-        skip_frame: int = 1,
+        self, config: BonsaiClientConfig, iteration_limit: int = 0, skip_frame: int = 1,
     ) -> None:
         super(GymSimulator3, self).__init__(config)
 
@@ -37,7 +34,8 @@ class GymSimulator3(SimulatorSession):
 
         # store initial gym state
         try:
-            state = self.gym_to_state(initial_observation)
+            # initial reward = 0; initial terminal False
+            state = self.gym_to_state(initial_observation, terminal=False, reward=0)
         except NotImplementedError as e:
             raise e
         self._set_last_state(state, 0, False)
@@ -57,7 +55,9 @@ class GymSimulator3(SimulatorSession):
     # These MUST be implemented by the simulator.
     #
 
-    def gym_to_state(self, observation: Any) -> Dict[str, Any]:
+    def gym_to_state(
+        self, observation: Any, reward: float, terminal: bool
+    ) -> Dict[str, Any]:
         """Convert a gym observation into an Inkling state
 
         Example:
@@ -140,8 +140,8 @@ class GymSimulator3(SimulatorSession):
 
         # initial observation
         observation = self.gym_episode_start(config)
-        state = self.gym_to_state(observation)
-        self._set_last_state(state, 0, False)
+        state = self.gym_to_state(observation, reward=0, terminal=False)
+        state = self._set_last_state(state, 0, False)
         return state
 
     def episode_step(self, action: Dict[str, Any]):
@@ -184,9 +184,9 @@ class GymSimulator3(SimulatorSession):
         self.episode_reward += reward
 
         # convert state and return to the server
-        state = self.gym_to_state(observation)
-        self._set_last_state(state, reward, done)
-        return state, reward, done
+        state = self.gym_to_state(observation, reward=reward, terminal=done)
+        state = self._set_last_state(state, reward, done)
+        return state
 
     def episode_finish(self, reason: str):
         log.info(
@@ -212,6 +212,7 @@ class GymSimulator3(SimulatorSession):
         self._last_state = state
         self._last_state[STATE_REWARD_KEY] = reward
         self._last_state[STATE_TERMINAL_KEY] = terminal
+        return self._last_state
 
     def _periodic_status_update(self):
         """ print a periodic status update showing iterations/sec
