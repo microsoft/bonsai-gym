@@ -27,7 +27,7 @@ type CartPoleConfig {
     deque_size: Number.UInt8
 }
 
-simulator cartpole_simulator(action: Action, config: CartPoleConfig): GameState {
+simulator CartpoleSimulator(action: Action, config: CartPoleConfig): GameState {
 }
 
 graph (input: GameState): Action {
@@ -36,7 +36,7 @@ graph (input: GameState): Action {
         curriculum {
             reward Reward
             terminal Terminal
-            source cartpole_simulator
+            source CartpoleSimulator
             lesson balancing {
                 scenario {
                     episode_length: -1,
