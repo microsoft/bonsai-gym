@@ -13,8 +13,8 @@ type GameState {
 }
 
 type Action {
-    move: Number.Int8<0, 1>,
-    write: Number.Int8<0, 1>,
+    move: Number.Int8<0, 1,>,
+    write: Number.Int8<0, 1,>,
     char: Number.Int8<0 .. 4>
 }
 
