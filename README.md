@@ -1,6 +1,6 @@
 # Bonsai Gym
 
-A python library for integrating Bonsai BRAIN with Open AI Gym environments.
+A python library for integrating Bonsai brains with Open AI Gym environments.
 
 ## Bonsai Gym
 
@@ -82,6 +82,10 @@ export SIM_WORKSPACE=<your-workspace-id>
 export SIM_ACCESS_KEY=<your-access-key>
 python3 my_sim.py
 ```
+
+## Rewards and Terminals
+
+The `GymSimulator3` class automatically appends the gym reward and gym terminal to the state extracted from the environment with the keys named `_gym_reward` and `_gym_terminal` respectively. You can use these [rewards and terminals](https://docs.microsoft.com/en-us/bonsai/inkling/advanced/reward-terminal-functions) in your Inkling definition using Inkling functions. See the example Inklings in the `samples` directory to see a standard implementation.
 
 # Contributing
 
