@@ -2,12 +2,17 @@ inkling "2.0"
 
 using Number
 
-function Reward(gs: GameState) {
-    return gs._gym_reward
-}
-
-function Terminal(gs: GameState) {
-    return gs._gym_terminal
+type SimState {
+    x_position: number,
+    y_position: number,
+    x_velocity: number,
+    y_velocity: number,
+    angle: number,
+    rotation: number,
+    left_leg: number,
+    right_leg: number,
+    _gym_reward: number,
+    _gym_terminal: number
 }
 
 type GameState {
@@ -21,6 +26,14 @@ type GameState {
     right_leg: number
 }
 
+function Reward(ss: SimState) {
+    return ss._gym_reward
+}
+
+function Terminal(ss: SimState) {
+    return ss._gym_terminal
+}
+
 type LanderAction {
     command: Number.Int8<Off = 0, LeftEngine = 1, MainEngine = 2, RightEngine = 3>
 }
@@ -30,7 +43,7 @@ type LunarLanderConfig {
     deque_size: 1
 }
 
-simulator lunarlander_simulator(action: LanderAction, config: LunarLanderConfig): GameState {
+simulator lunarlander_simulator(action: LanderAction, config: LunarLanderConfig): SimState {
 }
 
 graph (input: GameState): LanderAction {

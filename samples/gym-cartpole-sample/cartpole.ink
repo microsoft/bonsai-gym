@@ -1,12 +1,14 @@
 inkling "2.0"
+
 using Number
 
-function Reward(gs: GameState) {
-    return gs._gym_reward
-}
-
-function Terminal(gs: GameState) {
-    return gs._gym_terminal
+type SimState {
+    position: Number.Float32,
+    velocity: Number.Float32,
+    angle: Number.Float32,
+    rotation: Number.Float32,
+    _gym_reward: number,
+    _gym_terminal: number
 }
 
 type GameState {
@@ -14,8 +16,6 @@ type GameState {
     velocity: Number.Float32,
     angle: Number.Float32,
     rotation: Number.Float32,
-    _gym_reward: number,
-    _gym_terminal: number
 }
 
 type Action {
@@ -27,7 +27,15 @@ type CartPoleConfig {
     deque_size: Number.UInt8
 }
 
-simulator CartpoleSimulator(action: Action, config: CartPoleConfig): GameState {
+function Reward(ss: SimState) {
+    return ss._gym_reward
+}
+
+function Terminal(ss: SimState) {
+    return ss._gym_terminal
+}
+
+simulator CartpoleSimulator(action: Action, config: CartPoleConfig): SimState {
 }
 
 graph (input: GameState): Action {

@@ -2,18 +2,14 @@ inkling "2.0"
 
 using Number
 
-function Reward(gs: GameState) {
-    return gs._gym_reward
-}
-
-function Terminal(gs: GameState) {
-    return gs._gym_terminal
+type SimState {
+    character: Number.Int8<0 .. 5>,
+    _gym_reward: number,
+    _gym_terminal: number
 }
 
 type GameState {
     character: Number.Int8<0 .. 5>,
-    _gym_reward: number,
-    _gym_terminal: number
 }
 
 type Action {
@@ -27,7 +23,15 @@ type CopyConfig {
     deque_size: 1
 }
 
-simulator tapecopy_simulator(action: Action, config: CopyConfig): GameState {
+function Reward(ss: SimState) {
+    return ss._gym_reward
+}
+
+function Terminal(ss: SimState) {
+    return ss._gym_terminal
+}
+
+simulator tapecopy_simulator(action: Action, config: CopyConfig): SimState {
 }
 
 graph (input: GameState): Action {
