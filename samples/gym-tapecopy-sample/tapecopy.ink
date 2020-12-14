@@ -2,8 +2,18 @@ inkling "2.0"
 
 using Number
 
+function Reward(gs: GameState) {
+    return gs._gym_reward
+}
+
+function Terminal(gs: GameState) {
+    return gs._gym_terminal
+}
+
 type GameState {
-    character: Number.Int8<0 .. 5>
+    character: Number.Int8<0 .. 5>,
+    _gym_reward: number,
+    _gym_terminal: number
 }
 
 type Action {
@@ -23,6 +33,8 @@ simulator tapecopy_simulator(action: Action, config: CopyConfig): GameState {
 graph (input: GameState): Action {
     concept copy_string(input): Action {
         curriculum {
+            reward Reward
+            terminal Terminal
             source tapecopy_simulator
         }
     }

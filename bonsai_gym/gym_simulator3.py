@@ -35,7 +35,7 @@ class GymSimulator3(SimulatorSession):
         # store initial gym state
         try:
             # initial reward = 0; initial terminal False
-            state = self.gym_to_state(initial_observation, terminal=False, reward=0)
+            state = self.gym_to_state(initial_observation)
         except NotImplementedError as e:
             raise e
         self._set_last_state(state, 0, False)
@@ -55,9 +55,7 @@ class GymSimulator3(SimulatorSession):
     # These MUST be implemented by the simulator.
     #
 
-    def gym_to_state(
-        self, observation: Any, reward: float, terminal: bool
-    ) -> Dict[str, Any]:
+    def gym_to_state(self, observation: Any) -> Dict[str, Any]:
         """Convert a gym observation into an Inkling state
 
         Example:
@@ -140,7 +138,7 @@ class GymSimulator3(SimulatorSession):
 
         # initial observation
         observation = self.gym_episode_start(config)
-        state = self.gym_to_state(observation, reward=0, terminal=False)
+        state = self.gym_to_state(observation)
         state = self._set_last_state(state, 0, False)
         return state
 
@@ -184,7 +182,7 @@ class GymSimulator3(SimulatorSession):
         self.episode_reward += reward
 
         # convert state and return to the server
-        state = self.gym_to_state(observation, reward=reward, terminal=done)
+        state = self.gym_to_state(observation)
         state = self._set_last_state(state, reward, done)
         return state
 

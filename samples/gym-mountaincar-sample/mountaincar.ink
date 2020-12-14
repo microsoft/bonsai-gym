@@ -2,9 +2,19 @@ inkling "2.0"
 
 using Number
 
+function Reward(gs: GameState) {
+    return gs._gym_reward
+}
+
+function Terminal(gs: GameState) {
+    return gs._gym_terminal
+}
+
 type GameState {
     x_position: number,
-    x_velocity: number
+    x_velocity: number,
+    _gym_reward: number,
+    _gym_terminal: number
 }
 
 type Action {
@@ -22,6 +32,8 @@ simulator MountainCarSimulator(action: Action, config: MountainCarConfig): GameS
 graph (input: GameState): Action {
     concept HighScore(input): Action {
         curriculum {
+            reward Reward
+            terminal Terminal
             source MountainCarSimulator
         }
     }
