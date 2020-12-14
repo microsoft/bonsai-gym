@@ -2,6 +2,14 @@ inkling "2.0"
 
 using Number
 
+function Reward(gs: GameState) {
+    return gs._gym_reward
+}
+
+function Terminal(gs: GameState) {
+    return gs._gym_terminal
+}
+
 type GameState {
     x_position: number,
     y_position: number,
@@ -28,6 +36,8 @@ simulator lunarlander_simulator(action: LanderAction, config: LunarLanderConfig)
 graph (input: GameState): LanderAction {
     concept land(input): LanderAction {
         curriculum {
+            reward Reward
+            terminal Terminal
             source lunarlander_simulator
         }
     }
