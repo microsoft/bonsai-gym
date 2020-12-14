@@ -24,4 +24,5 @@ python3 acrobot_simulator.py
 ```
 
 ## Questions about Inkling?
-See our [Inkling Guide](http://docs.bons.ai/guides/inkling-guide.html) and [Inkling Reference](http://docs.bons.ai/references/inkling-reference.html) for help.
+
+See our [Inkling Guide](https://docs.microsoft.com/en-us/bonsai/inkling/) for help.

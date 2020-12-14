@@ -2,18 +2,15 @@ inkling "2.0"
 
 using Number
 
-function Reward(gs: GameState) {
-    return gs._gym_reward
-}
 
-function Terminal(gs: GameState) {
-    return gs._gym_terminal
+type SimState {
+    location: Number.Int16<0 .. 499>,
+    _gym_reward: number,
+    _gym_terminal: number
 }
 
 type GameState {
     location: Number.Int16<0 .. 499>,
-    _gym_reward: number,
-    _gym_terminal: number
 }
 
 type Action {
@@ -24,7 +21,15 @@ type TaxiConfig {
     deque_size: 1
 }
 
-simulator taxi_simulator(action: Action, config: TaxiConfig): GameState {
+function Reward(ss: SimState) {
+    return ss._gym_reward
+}
+
+function Terminal(ss: SimState) {
+    return ss._gym_terminal
+}
+
+simulator taxi_simulator(action: Action, config: TaxiConfig): SimState {
 }
 
 graph (input: GameState): Action {
