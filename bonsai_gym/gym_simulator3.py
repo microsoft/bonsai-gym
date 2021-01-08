@@ -23,7 +23,7 @@ class GymSimulator3(SimulatorSession):
     environment_name = ""  # name of the OpenAI Gym environment
 
     def __init__(
-        self, config: BonsaiClientConfig, iteration_limit: int = 0, skip_frame: int = 1,
+        self, config: BonsaiClientConfig, iteration_limit: int = 0, skip_frame: int = 1, timeout: int = 60
     ) -> None:
         super(GymSimulator3, self).__init__(config)
 
@@ -50,6 +50,9 @@ class GymSimulator3(SimulatorSession):
         self.episode_count = 0
         self._log_interval = 10.0  # seconds
         self._last_status = time()
+
+        # timeout
+        self._timeout = timeout
 
     #
     # These MUST be implemented by the simulator.
@@ -121,7 +124,7 @@ class GymSimulator3(SimulatorSession):
     def get_interface(self):
         return SimulatorInterface(
             name=self.simulator_name,
-            timeout=60,
+            timeout=self._timeout,
             simulator_context=self.get_simulator_context(),
         )
 

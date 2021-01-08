@@ -46,15 +46,5 @@ def torch_featurizer(x: np.ndarray) -> List[float]:
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
     config = BonsaiClientConfig(argv=sys.argv)
-    sim = CarRacer(config, skip_frame=SKIP_FRAME, timeout=60 * 10)
+    sim = CarRacer(config, skip_frame=SKIP_FRAME)
     sim.run_gym()
-
-    # env = gym.make("CarRacing-v0")
-    # obs = env.reset()
-    # obs_tensor = torch.Tensor(obs.copy())
-    # model_ft = models.resnet18(pretrained=True)
-    # # ### strip the last layer
-    # feature_extractor = torch.nn.Sequential(*list(model_ft.children())[:-1])
-    # obs_feature = feature_extractor(obs_tensor.unsqueeze(0).permute(0, 3, 1, 2))
-    # # # obs_list = obs_feature[0, :, 0, 0].tolist()
-    # obs_list = torch.flatten(obs_feature).tolist()
