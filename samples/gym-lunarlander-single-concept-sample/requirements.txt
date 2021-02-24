@@ -1,2 +1,3 @@
+git+https://github.com/microsoft/bonsai-common
 git+https://github.com/microsoft/bonsai-gym
 box2d-py==2.3.4   # Note: box2d-kengz 2.3.3 has issues on Linux https://github.com/openai/gym/issues/1096. We will keep using box-2d 2.3.4 till the fix is released.
