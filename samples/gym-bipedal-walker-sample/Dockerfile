@@ -10,7 +10,9 @@ RUN apt-get update && \
     swig
 
 # Install dependencies
-RUN pip3 install -U setuptools
+RUN pip3 install -U setuptools \
+&& pip3 install git+https://github.com/microsoft/bonsai-common \
+&& pip3 install git+https://github.com/microsoft/bonsai-gym
 
 # Set up the simulator
 WORKDIR /src
