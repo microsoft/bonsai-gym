@@ -121,7 +121,7 @@ class GymSimulator3(SimulatorSession):
                 log.info(
                     f"Episode: #{episode}, iteration: #{iteration}, reward: {reward}, Terminal: {terminal}"
                 )
-                if iteration > num_iterations - 1:
+                if iteration > num_iterations - 1 or terminal:
                     terminal = True
                 if not render or self._headless:
                     if "human" in self._env.metadata["render.modes"]:
@@ -145,8 +145,8 @@ class GymSimulator3(SimulatorSession):
                 iteration += 1
                 response = requests.get(prediction_endpoint, json=self.get_state())
                 action = response.json()
-                self.episode_step(action)
-                if iteration > num_iterations - 1:
+                state = self.episode_step(action)
+                if iteration > num_iterations - 1 or state['_gym_terminal']:
                     terminal = True
                 if not render or self._headless:
                     if "human" in self._env.metadata["render.modes"]:

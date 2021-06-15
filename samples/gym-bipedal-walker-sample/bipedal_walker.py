@@ -94,5 +94,16 @@ if __name__ == "__main__":
     config = BonsaiClientConfig(argv=sys.argv)
     sim = BipedalWalkerSimulator(config)
     sim.run_gym()
-    # sim.run_random()
-    # sim.run_exported_brain()
+    #sim.run_random()
+    '''
+    sim.run_exported_brain(
+        num_episodes=2,
+        num_iterations=2000,
+        render=True,
+        exported_brain_url="http://localhost:5006",
+        config={
+            "stump_height": 1,
+            "obstacle_spacing": 5
+        }
+    )
+    '''
