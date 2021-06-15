@@ -2,6 +2,7 @@ import argparse
 import logging
 from typing import Dict, Any, Union
 from time import time
+import requests
 
 
 import gym
@@ -105,6 +106,53 @@ class GymSimulator3(SimulatorSession):
         """
         observation, reward, done, info = self._env.step(gym_action)
         return observation, reward, done, info
+
+    def run_random(
+        self, num_episodes: int = 10, num_iterations: int = 200, render: bool = False
+    ):
+
+        for episode in range(num_episodes):
+            terminal = False
+            iteration = 0
+            while not terminal:
+                iteration += 1
+                random_action = self._env.action_space.sample()
+                _, reward, terminal, _ = self._env.step(random_action)
+                log.info(
+                    f"Episode: #{episode}, iteration: #{iteration}, reward: {reward}, Terminal: {terminal}"
+                )
+                if iteration > num_iterations - 1:
+                    terminal = True
+                if not render or self._headless:
+                    if "human" in self._env.metadata["render.modes"]:
+                        self._env.render()
+
+    def run_exported_brain(
+        self,
+        num_episodes: int = 500,
+        num_iterations: int = 200,
+        render: bool = False,
+        exported_brain_url: str = "http://localhost:5000",
+    ):
+
+        prediction_endpoint = f"{exported_brain_url}/v1/prediction"
+        state = self._env.reset()
+        for episode in range(num_episodes):
+            terminal = False
+            iteration = 0
+            while not terminal:
+                iteration += 1
+                response = requests.get(prediction_endpoint, json=state)
+                action = response.json()
+                state, reward, terminal, _ = self._env.step(action)
+                log.info(
+                    f"Episode: #{episode}, iteration: #{iteration}, reward: {reward}, Terminal: {terminal}"
+                )
+                if iteration > num_iterations - 1:
+                    terminal = True
+                if not render or self._headless:
+                    if "human" in self._env.metadata["render.modes"]:
+                        self._env.render()
 
     def run_gym(self):
         """
