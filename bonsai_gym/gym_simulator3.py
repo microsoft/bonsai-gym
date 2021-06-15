@@ -1,6 +1,6 @@
 import argparse
 import logging
-from typing import Dict, Any, Union
+from typing import Dict, Union, Any
 from time import time
 import requests
 
@@ -133,21 +133,19 @@ class GymSimulator3(SimulatorSession):
         num_iterations: int = 200,
         render: bool = False,
         exported_brain_url: str = "http://localhost:5000",
+        config: Union[Dict[str, Any], None] = None,
     ):
 
         prediction_endpoint = f"{exported_brain_url}/v1/prediction"
-        state = self._env.reset()
-        for episode in range(num_episodes):
+        for _ in range(num_episodes):
+            self.episode_start(config=config)
             terminal = False
             iteration = 0
             while not terminal:
                 iteration += 1
-                response = requests.get(prediction_endpoint, json=state)
+                response = requests.get(prediction_endpoint, json=self.get_state())
                 action = response.json()
-                state, reward, terminal, _ = self._env.step(action)
-                log.info(
-                    f"Episode: #{episode}, iteration: #{iteration}, reward: {reward}, Terminal: {terminal}"
-                )
+                self.episode_step(action)
                 if iteration > num_iterations - 1:
                     terminal = True
                 if not render or self._headless:
@@ -176,13 +174,9 @@ class GymSimulator3(SimulatorSession):
     def get_state(self):
         return self._last_state
 
-    def episode_start(self, config: Dict[str, Any]):
+    def episode_start(self, config: Union[Dict[str, Any], None]):
         self.iteration_count = 0
         self.episode_reward = 0
-
-        # optional configuration arguments for open-ai-gym
-        if "iteration_limit" in config:
-            self._iteration_limit = config["iteration_limit"]
 
         # initial observation
         observation = self.gym_episode_start(config)
