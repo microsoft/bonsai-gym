@@ -1,0 +1,126 @@
+{
+  "version": "1.0.0",
+  "context": {},
+  "episodeConfigurations": [
+    {
+      "stump_height": 1.6886638910213148,
+      "obstacle_spacing": 2.083375334118778
+    },
+    {
+      "stump_height": 0.2811952368562316,
+      "obstacle_spacing": 0.4536783888637981
+    },
+    {
+      "stump_height": 1.1505362035703028,
+      "obstacle_spacing": 0.029932335547763422
+    },
+    {
+      "stump_height": 1.1397811204624217,
+      "obstacle_spacing": 2.343845140245418
+    },
+    {
+      "stump_height": 2.6133702466147284,
+      "obstacle_spacing": 1.4367975172614962
+    },
+    {
+      "stump_height": 1.720454850021755,
+      "obstacle_spacing": 0.6269672212895916
+    },
+    {
+      "stump_height": 1.2703338476058175,
+      "obstacle_spacing": 0.7836212349071863
+    },
+    {
+      "stump_height": 1.733575989222508,
+      "obstacle_spacing": 1.7830238302418073
+    },
+    {
+      "stump_height": 2.2972451839032795,
+      "obstacle_spacing": 2.3135296702846
+    },
+    {
+      "stump_height": 0.7496082540030264,
+      "obstacle_spacing": 3.6952927734030445
+    },
+    {
+      "stump_height": 0.6635018364934921,
+      "obstacle_spacing": 4.106661586134245
+    },
+    {
+      "stump_height": 0.9918285948838561,
+      "obstacle_spacing": 5.383591259315172
+    },
+    {
+      "stump_height": 0.365029578400502,
+      "obstacle_spacing": 1.5377696017885971
+    },
+    {
+      "stump_height": 0.6357251673755475,
+      "obstacle_spacing": 1.9329200848700987
+    },
+    {
+      "stump_height": 0.02741017295553494,
+      "obstacle_spacing": 4.313365392814912
+    },
+    {
+      "stump_height": 2.0034495824904797,
+      "obstacle_spacing": 0.7378929039049944
+    },
+    {
+      "stump_height": 2.2625668485948736,
+      "obstacle_spacing": 4.546337215903398
+    },
+    {
+      "stump_height": 2.6414032749250533,
+      "obstacle_spacing": 4.497615782939449
+    },
+    {
+      "stump_height": 0.8942510152231553,
+      "obstacle_spacing": 5.122010107509277
+    },
+    {
+      "stump_height": 2.322874301505383,
+      "obstacle_spacing": 0.8658208035875918
+    },
+    {
+      "stump_height": 2.416624608835787,
+      "obstacle_spacing": 2.343748237632741
+    },
+    {
+      "stump_height": 2.7595164571404327,
+      "obstacle_spacing": 4.9024338843729245
+    },
+    {
+      "stump_height": 1.9934129346580676,
+      "obstacle_spacing": 4.092582345962549
+    },
+    {
+      "stump_height": 0.9902309118374912,
+      "obstacle_spacing": 1.184204423037896
+    },
+    {
+      "stump_height": 0.06115164394530481,
+      "obstacle_spacing": 0.5339385014232554
+    },
+    {
+      "stump_height": 2.725911849256076,
+      "obstacle_spacing": 1.2187191033846099
+    },
+    {
+      "stump_height": 1.2109468228349838,
+      "obstacle_spacing": 3.8075651867415523
+    },
+    {
+      "stump_height": 1.9134887695503169,
+      "obstacle_spacing": 0.7725556840849412
+    },
+    {
+      "stump_height": 0.9780685242053189,
+      "obstacle_spacing": 3.630632337391427
+    },
+    {
+      "stump_height": 2.0558411128930127,
+      "obstacle_spacing": 2.567239768973959
+    }
+  ]
+}

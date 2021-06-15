@@ -10,7 +10,7 @@ Often times on problems with highly random simulator configuration variables, le
 
 [Curriculum Docs](https://docs.microsoft.com/en-us/bonsai/inkling/keywords/curriculum)
 
-### Curriculum Learning
+### Curriculum Learning (multi_lesson.ink)
 
 ![](img/multi-lesson.png)
 
@@ -36,7 +36,7 @@ Often times on problems with highly random simulator configuration variables, le
             }
 ```
 
-### No Curriculum Learning
+### No Curriculum Learning (gait.ink)
 
 ![](img/single-lesson.png)
 
@@ -50,6 +50,13 @@ Often times on problems with highly random simulator configuration variables, le
 
 ```
 
+## Configuration Parameters
+
+| SimConfig    | Range                                             |
+| ---------| ------------------------------------------------------- |
+| stump_height | [0, 3] |
+| obstacle_spacing |  [0, 6] |
+| poly_shape[12] |  array of length 12 with range of [0, 4] *not used for stump track* |
 
 ## Array Action
 
@@ -83,12 +90,6 @@ Num   | Observation              |  Min   |   Max  | Mean
 - Episode length greater than 2000
 - Hull collides with ground or obstacle
 
-## Configuration Parameters
-
-| State    | Range                                             |
-| ---------| ------------------------------------------------------- |
-| stump_height | [0, 3] |
-| obstacle_spacing |  [0, 6] |
 
 ## Install Requirements
 
@@ -124,25 +125,9 @@ Optionally, run the simulator without visualization:
 python bipedal_walker.py --headless
 ```
 
-## Evaluation
-
-The platform does not yet support assessment of programmed concepts, so export the brain and use it with the sim using main.py. Logs will be saved to `/logs` as csv format. The episode configuration(s) are pulled from the `assess_config.json` file.
-
-```sh
-export SIM_WORKSPACE=<your-workspace-id>
-export SIM_ACCESS_KEY=<your-access-key>
-az login
-az acr login -n <acr-name>
-docker pull <brain-uri>
-docker run -d -p 5000:<PORT> <brain-uri>
-python main.py --test-exported <port> --render
-```
-
-> An example: python main.py --test-exported 5005 --render --custom-assess assess_config.json
-
 ## Building Simulator Packages
 
-Using the `azure-cli`, you can build the provided dockerfile to create a simulator package:
+Using the [azure-cli](https://pypi.org/project/azure-cli), you can build the provided dockerfile to create a simulator package:
 
 ```bash
 az acr build --image <IMAGE_NAME>:<IMAGE_VERSION> --file Dockerfile --registry <ACR_REGISTRY> .

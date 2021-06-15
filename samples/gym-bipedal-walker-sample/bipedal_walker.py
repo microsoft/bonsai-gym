@@ -6,7 +6,6 @@ __copyright__ = "Copyright 2021, Microsoft Corp."
 import datetime
 import logging
 import sys
-import time
 from typing import Any, cast, Dict, List, Tuple, Union
 
 from teachDRL.gym_flowers.envs.bipedal_walker_continuous import (
