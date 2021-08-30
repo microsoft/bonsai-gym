@@ -39,10 +39,6 @@ graph (input: GameState): Action {
             source FrozenlakeSimulator
             reward Reward
             terminal Terminal
-
-            training {
-                NoProgressIterationLimit: 1000000
-            }
         }
     }
     output GoalPosition
