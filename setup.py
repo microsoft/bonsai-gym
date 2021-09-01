@@ -27,7 +27,7 @@ setup(
     ],
     keywords="bonsai",
     install_requires=[
-        "gym==0.9.7",
+        "gym==0.18.0",
         "bonsai-common",
     ],
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, " "!=3.3.*, !=3.4.*",
