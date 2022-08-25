@@ -1,7 +1,7 @@
 # Minimal Build pipeline
 # This allow us to generate wheels and upload that to a feed.
 # This pipeline will run on all pr/s and every time a change is landed into master.
-# If you wish to release a wheel without the buildId appended -> manually run the pipeline 
+# If you wish to release a wheel without the buildId appended -> manually run the pipeline
 # with the release parameter set to True
 
 parameters:
@@ -19,9 +19,9 @@ stages:
         cancelTimeoutInMinutes: 5
         strategy:
           matrix:
-            linux_python36:
-              imageName: "ubuntu-16.04"
-              python.version: "3.6"
+            linux_python38:
+              imageName: "ubuntu-latest"
+              python.version: "3.8"
               WHEELS_PATH: "/dist/*.whl"
             # macos1015_python36:
             #   imageName: 'macOS-10.15'
