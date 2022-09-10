@@ -23,4 +23,7 @@ variance of yields: 280080.59325247107 kg/ha
 16/16 multiprocess_trial
 16/16 multiprocess_trial_hard_reset
 ```
-
+Next, we need to create a container image for the Bonsai simulator:
+1. Open this folder (`bonsai-gym\samples\gym-dssat-agriculture-sample`)
+1. Build with: `docker build -t "gym-dssat-bonsai:latest" .`
+1. Test with: `docker run gym-dssat-bonsai:latest`
