@@ -195,7 +195,9 @@ class GymSimulator3(SimulatorSession):
         self.episode_reward += reward
 
         # convert state and return to the server
+        print(f'gym_to_state({observation})')
         state = self.gym_to_state(observation)
+        print(f'-> state: {state}, reward: {reward}, done: {done}')
         state = self._set_last_state(state, reward, done)
         return state
 
