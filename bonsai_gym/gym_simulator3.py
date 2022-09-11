@@ -156,6 +156,13 @@ class GymSimulator3(SimulatorSession):
             print(f'gym_simulate({gym_action})')
             observation, reward, done, info = self.gym_simulate(gym_action)
             print(f'-> observation: {observation}, reward: {reward}, done: {done}, info: {info}')
+            if isinstance(reward, list):
+                # In the all mode (both irrigation and fertilization) the reward is a list of two values.
+                # TODO: Not clear how this should be handled in Bonsai. For now, let's add them together.
+                #       Perhaps we should return them in separate values or perhaps we should be using goals
+                #       instead of the simulator-supplied gym rewards?
+                reward = sum(reward)
+                print(f'flattened reward to {reward}')
             self.iteration_count += 1
             rwd_accum += reward
 
