@@ -152,7 +152,9 @@ class GymSimulator3(SimulatorSession):
         observation = None
 
         for i in range(self._skip_frame):
+            print(f'gym_simulate({gym_action})')
             observation, reward, done, info = self.gym_simulate(gym_action)
+            print(f'-> observation: {observation}, reward: {reward}, done: {done}, info: {info}')
             self.iteration_count += 1
             rwd_accum += reward
 
