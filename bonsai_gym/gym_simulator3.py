@@ -156,6 +156,9 @@ class GymSimulator3(SimulatorSession):
             print(f'gym_simulate({gym_action})')
             observation, reward, done, info = self.gym_simulate(gym_action)
             print(f'-> observation: {observation}, reward: {reward}, done: {done}, info: {info}')
+            if done and reward == None:
+                reward = 0
+                print(f'set done reward to {reward}')
             if isinstance(reward, list):
                 # In the all mode (both irrigation and fertilization) the reward is a list of two values.
                 # TODO: Not clear how this should be handled in Bonsai. For now, let's add them together.
