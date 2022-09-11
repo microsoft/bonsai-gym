@@ -104,6 +104,7 @@ class GymSimulator3(SimulatorSession):
         reward shaping.
         """
         observation, reward, done, info = self._env.step(gym_action)
+        print(f'reward: {reward}')
         return observation, reward, done, info
 
     def run_gym(self):
