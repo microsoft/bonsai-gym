@@ -222,7 +222,10 @@ class GymSimulator3(SimulatorSession):
     #
 
     def _set_last_state(self, state: Dict[str, Any], reward: float, terminal: bool):
-        self._last_state = state
+        if terminal and state == None:
+            print('not updating _last_state because terminal and state is None')
+        else:
+            self._last_state = state
         self._last_state[STATE_REWARD_KEY] = reward
         self._last_state[STATE_TERMINAL_KEY] = terminal
         return self._last_state
