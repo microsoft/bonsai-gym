@@ -13,7 +13,7 @@ We must use the gym_dssat_pdi_project to create a base container image with the 
 1. Open folder `gym_dssat_pdi\docker_recipes`
 1. Modify Dockerfile_Debian_Bullseye, changing `https://gac.udc.es/~emilioj/bullseye.tgz` to `http://burgas.des.udc.es/gym-dssat/tarballs/bullseye.tgz` (apparently this file has been moved)
 1. Build with: `docker build -t "gym-dssat:debian-bullseye" -f Dockerfile_Debian_Bullseye .`
-1. Test with: `docker run gym-dssat:debian-bullseye`
+1. Test with: `docker run -it --rm gym-dssat:debian-bullseye`
 
 If this is working, you should see a series of fertilizing outputs with final output that looks like this:
 
@@ -25,5 +25,6 @@ variance of yields: 280080.59325247107 kg/ha
 ```
 Next, we need to create a container image for the Bonsai simulator:
 1. Open this folder (`bonsai-gym\samples\gym-dssat-agriculture-sample`)
-1. Build with: `docker build -t "gym-dssat-bonsai:latest" .`
-1. Test with: `docker run gym-dssat-bonsai:latest`
+1. Build with: `docker build -t gym-dssat-bonsai:latest .`
+1. Set your SIM_ACCESS_KEY and SIM_WORKSPACE system environment variables according to your Bonsai workspace.
+1. Test with: `docker run -it --rm -e SIM_ACCESS_KEY -e SIM_WORKSPACE gym-dssat-bonsai:latest`
