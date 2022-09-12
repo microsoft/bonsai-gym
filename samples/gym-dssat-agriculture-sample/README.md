@@ -24,6 +24,9 @@ variance of yields: 280080.59325247107 kg/ha
 16/16 multiprocess_trial_hard_reset
 ```
 Next, we need to create a container image for the Bonsai simulator:
+?? i don't have this folder, but can generate it by cloning the bonsai-gym repo (that should be a step)
+?? then opening with vscode and switching to your branch, then it is generated (shown?)
+?? I know there is a command line way to do this as well with git, but need to look that up.
 1. Open this folder (`bonsai-gym\samples\gym-dssat-agriculture-sample`)
 1. Build with: `docker build -t gym-dssat-bonsai:latest .`
 1. Set your SIM_ACCESS_KEY and SIM_WORKSPACE system environment variables according to your Bonsai workspace.
