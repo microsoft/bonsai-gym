@@ -116,7 +116,12 @@ class GymSimulator3(SimulatorSession):
         to provide additional initialization.
         """
         if 'mode' in parameters:
-            self.init_mode(parameters['mode'])
+            if parameters['mode'] == 1:
+                self.init_mode('fertilization')
+            elif parameters['mode'] == 2:
+                self.init_mode('irrigation')
+            elif parameters['mode'] == 3:
+                self.init_mode('all')
         observation = self._env.reset()
         log.debug("start state: " + str(observation))
         return observation
