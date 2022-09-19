@@ -33,7 +33,7 @@ class GymSimulator3(SimulatorSession):
         env_args = {
             'run_dssat_location': '/opt/dssat_pdi/run_dssat',
             'log_saving_path': '/dssat_pdi.log',
-            'mode': 'fertilization',
+            'mode': 'all', #'fertilization',
             'seed': random.randint(0, 1000000),
             'random_weather': True,
             'auxiliary_file_paths': ['/opt/gym_dssat_pdi/samples/test_files/GAGR.CLI'],
