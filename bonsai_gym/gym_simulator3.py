@@ -29,7 +29,8 @@ class GymSimulator3(SimulatorSession):
     ) -> None:
         super(GymSimulator3, self).__init__(config)
 
-        self.init_mode('fertilization')
+        self.mode = 'uninitialized'
+        self.init_mode('all')
 
         # optional parameters for controlling the simulation
         self._headless = self._check_headless()
@@ -42,6 +43,11 @@ class GymSimulator3(SimulatorSession):
         self.episode_count = 0
 
     def init_mode(self, mode):
+        if self.mode == mode:
+            return # already in this mode
+
+        print(f'changing mode from {self.mode} to {mode}')
+
         # create and reset the gym environment
         env_args = {
             'run_dssat_location': '/opt/dssat_pdi/run_dssat',
@@ -65,6 +71,8 @@ class GymSimulator3(SimulatorSession):
         self._set_last_state(state, 0, False)
 
         self.iteration_count = 0
+
+        self.mode == mode
 
     #
     # These MUST be implemented by the simulator.
@@ -107,6 +115,8 @@ class GymSimulator3(SimulatorSession):
         after reseting the gym environment. clients can override this
         to provide additional initialization.
         """
+        if 'mode' in parameters:
+            self.init_mode(parameters['mode'])
         observation = self._env.reset()
         log.debug("start state: " + str(observation))
         return observation
