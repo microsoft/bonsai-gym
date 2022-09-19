@@ -1,0 +1,24 @@
+{
+	"name": "Existing Dockerfile",
+	"context": "..",
+	"dockerFile": "../Dockerfile",
+
+	// Uncomment this line if you want to pass in environment variables through a file
+	//"runArgs": [ "--env-file", "path\to\you\.env\file" ],
+
+	// Environment variables
+	"containerEnv": {
+		"SIM_ACCESS_KEY": "some-value-here",
+		"SIM_WORKSPACE": "${localEnv:SOME_LOCAL_VAR}",
+		"SIM_ACR_PATH": "path-to-registry-here"
+	},
+
+	// Extensions to add on startup
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python"
+			]
+		}
+	}
+}

@@ -54,3 +54,21 @@ Finally, we will push the container image to our Azure Container Registry and cr
     }
     ```
 1. Click the Train button. After a couple minutes, you should see multiple simulators registered and in use and episodes running in the Simulator (Live) pane of the Bonsai workspace. If you leave it running for a couple hours, the training graph should show hundreds of thousands of iterations completed and rising values for episode reward
+
+### Debugging the Simulator
+
+1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Remote Development Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
+2. Start VS Code, run the 'Remote-Containers: Open Folder in Container...' command from the Command Palette (`F1`) or quick actions Status bar item, and select the folder with the Bonsai simulator and Dockerfile.
+3. If prompted to pick a starting point for the container, opt for using an existing Dockerfile.
+4. After the container starts and extensions load, you can start the debugging process. Open `gym-dssat-simulator.py` and set any breakpoints.
+5. Navigate to the 'Run and Debug' tab on the left-hand side menu (with an icon of a bug and a play button). Hit the 'Run and Debug' button. This script will create and register a new simulator you can attach to.
+6. Now, if you follow the steps above for creating a Bonsai simulator, the debugger will stop at your breakpoints!
+
+If you need to debug a python file other than `gym-dssat-simulator.py` and you see a ModuleNotFound error, copy and paste this code to the top of the file:
+```python
+import sys
+# For manual debugging
+gym_lib = '/opt/gym_dssat_pdi/lib/python3.9/site-packages'
+if gym_lib not in sys.path:
+    sys.path.append(gym_lib)
+```

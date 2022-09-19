@@ -1,5 +1,11 @@
 import sys
 import logging
+
+# For manual debugging
+gym_lib = '/opt/gym_dssat_pdi/lib/python3.9/site-packages'
+if gym_lib not in sys.path:
+    sys.path.append(gym_lib)
+
 from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from bonsai_gym import GymSimulator3
 
