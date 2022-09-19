@@ -16,7 +16,7 @@ class GymDSSAT(GymSimulator3):
 
     # convert openai gym observation to our state type
     def gym_to_state(self, observation):
-        print(f"observation: {observation}")
+        print(f"observation: mode {self.mode}, {observation}")
         if observation:
             if self.mode == 'fertilization':
                 observation['mode'] = 1
