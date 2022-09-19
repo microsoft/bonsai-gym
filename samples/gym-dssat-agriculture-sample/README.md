@@ -58,11 +58,12 @@ Finally, we will push the container image to our Azure Container Registry and cr
 ### Debugging the Simulator
 
 1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Remote Development Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
-2. Start VS Code, run the 'Remote-Containers: Open Folder in Container...' command from the Command Palette (`F1`) or quick actions Status bar item, and select the folder with the Bonsai simulator and Dockerfile.
-3. If prompted to pick a starting point for the container, opt for using an existing Dockerfile.
-4. After the container starts and extensions load, you can start the debugging process. Open `gym-dssat-simulator.py` and set any breakpoints.
-5. Navigate to the 'Run and Debug' tab on the left-hand side menu (with an icon of a bug and a play button). Hit the 'Run and Debug' button. This script will create and register a new simulator you can attach to.
-6. Now, if you follow the steps above for creating a Bonsai simulator, the debugger will stop at your breakpoints!
+2. Start VS Code and open the `.devcontainer/.devcontainer.json` file. Edit the environment variables to include information about your Bonsai workspace.
+3. Next run the 'Remote-Containers: Open Folder in Container...' command from the Command Palette (`F1`) or quick actions Status bar item, and select the folder with the Bonsai simulator and Dockerfile.
+4. If prompted to pick a starting point for the container, opt for using an existing Dockerfile.
+5. After the container starts and extensions load, you can start the debugging process. Open `gym-dssat-simulator.py` and set any breakpoints.
+6. Navigate to the 'Run and Debug' tab on the left-hand side menu (with an icon of a bug and a play button). Hit the 'Run and Debug' button. When prompted for which file to debug, chose the current file. For the python interpreter to use, choose 3.9.*. This script will create and register a new simulator you can attach to.
+7. Now, if you follow the steps above for creating a Bonsai simulator, the debugger will stop at your breakpoints!
 
 If you need to debug a python file other than `gym-dssat-simulator.py` and you see a ModuleNotFound error, copy and paste this code to the top of the file:
 ```python
