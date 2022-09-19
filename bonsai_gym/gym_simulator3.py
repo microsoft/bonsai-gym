@@ -2,6 +2,8 @@ import argparse
 import logging
 from typing import Dict, Any, Union
 from time import time
+import random
+import os
 
 
 import gym
@@ -28,7 +30,16 @@ class GymSimulator3(SimulatorSession):
         super(GymSimulator3, self).__init__(config)
 
         # create and reset the gym environment
-        self._env = gym.make(self.environment_name)
+        env_args = {
+            'run_dssat_location': '/opt/dssat_pdi/run_dssat',
+            'log_saving_path': '/dssat_pdi.log',
+            'mode': 'fertilization',
+            'seed': random.randint(0, 1000000),
+            'random_weather': True,
+            'auxiliary_file_paths': ['/opt/gym_dssat_pdi/samples/test_files/GAGR.CLI'],
+        }
+
+        self._env = gym.make(self.environment_name, **env_args)
         self._env.seed(20)
         initial_observation = self._env.reset()
 
