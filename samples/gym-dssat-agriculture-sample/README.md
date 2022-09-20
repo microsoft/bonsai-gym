@@ -46,7 +46,7 @@ Finally, we will push the container image to our Azure Container Registry and cr
 1. Tag with: `docker tag gym-dssat-bonsai:latest $env:SIM_ACR_PATH/gym-dssat-bonsai:latest`
     * This assumes that you are using a Powershell console. If that is not the case, you can replace `$env:SIM_ACR_PATH` in this step and the following steps with the ACR path from your workspace info.
 1. Log in to your Azure container reistry with: `az acr login -n $env:SIM_ACR_PATH`
-   If AzureCLI isn't installed, use `winget install -e --id Microsoft.AzureCLI`
+   * If AzureCLI isn't installed, use `winget install -e --id Microsoft.AzureCLI`
    and try again
 3. Push with: `docker push $env:SIM_ACR_PATH/gym-dssat-bonsai:latest`
 4. Create Bonsai sim with: `bonsai simulator package container create --name dssat --image-uri $env:SIM_ACR_PATH/gym-dssat-bonsai:latest --cores-per-instance 1 --memory-in-gb-per-instance 1 --os-type Linux --max-instance-count 25`
