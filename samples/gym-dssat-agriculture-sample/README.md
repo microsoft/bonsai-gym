@@ -38,6 +38,7 @@ Next, we need to create a container image for the Bonsai simulator:
 1. Test that the resulting unmanaged simulator registers with Bonsai and can be used with a Bonsai brain
     * Create a new empty brain in your Bonsai workspace
     * Paste in the Inkling source code from [dssat.ink](dssat.ink)
+    * Remove the `package` statement from the Inkling source code (this will make it prompt for connecting to an unmanaged simulator)
     * Click the train button and select the unmanaged simulator DSSATSimulator
     * Let it run for a little bit and verify that you see episode activity in the Bonsai workspace and in the unmanaged simulator console output
 
@@ -47,12 +48,7 @@ Finally, we will push the container image to our Azure Container Registry and cr
 1. Log in to your Azure container reistry with: `az acr login -n $env:SIM_ACR_PATH`
 1. Push with: `docker push $env:SIM_ACR_PATH/gym-dssat-bonsai:latest`
 1. Create Bonsai sim with: `bonsai simulator package container create --name dssat --image-uri $env:SIM_ACR_PATH/gym-dssat-bonsai:latest --cores-per-instance 1 --memory-in-gb-per-instance 1 --os-type Linux --max-instance-count 25`
-1. Add a package statement to the Inkling brain that you previously created for testing the unmanaged simulator. It should look like this:
-    ```inkling
-    simulator Simulator(action: Action, config: Config): SimState {
-        package "dssat" # <-- Add this line
-    }
-    ```
+1. If you previously removed the `package "dssat"` statement in the Inkling, put it back in now
 1. Click the Train button. After a couple minutes, you should see multiple simulators registered and in use and episodes running in the Simulator (Live) pane of the Bonsai workspace. If you leave it running for a couple hours, the training graph should show hundreds of thousands of iterations completed and rising values for episode reward
 
 ### Debugging the Simulator
