@@ -1,6 +1,23 @@
 
-# OpenAI Gym Frozen Lake Sample
-The agent controls the movement of a character in a grid world. Some tiles of the grid are walkable, and others lead to the agent falling into the water. Additionally, the movement direction of the agent is uncertain and only partially depends on the chosen direction. The agent is rewarded for finding a walkable path to a goal tile.
+# OpenAI Gym - Mujoco (https://mujoco.org/) - Double inverted Pendulum
+
+
+The agent controls the force applied on the cart (Box[-1,1]) and receives the states of the environment. 
+'''
+        state = {
+            "pos": float(next_state[0]),
+            "sin_hinge1": float(next_state[1]),
+            "sin_hinge2": float(next_state[2]),
+            "cos_hinge1": float(next_state[3]),
+            "cos_hinge2": float(next_state[4]),
+            "velocity": float(next_state[5]),
+            "ang_velocity1": float(next_state[6]),
+            "ang_velocity2": float(next_state[7]),
+            "constraint1": float(next_state[8]),
+            "constraint2": float(next_state[9]),
+            "constraint3": float(next_state[10])
+        }
+'''
 
 Simulators need two environment variables set to be able to attach to the platform.
 
