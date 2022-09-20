@@ -146,9 +146,9 @@ if __name__ == '__main__':
     utils.make_folder('./render')
     cwd = os.path.dirname(os.path.realpath(__file__))
     for i, mode in enumerate([
+                              'all',
                               'fertilization',
-                              'irrigation',
-                              'all'
+                              'irrigation'
                               ]):
         print(f'MODE: {mode}')
         env_args = {

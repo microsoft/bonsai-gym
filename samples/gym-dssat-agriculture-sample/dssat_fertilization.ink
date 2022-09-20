@@ -4,6 +4,8 @@ using Number
 using Math
 using Goal
 
+type Mode number<uninitialized = 0, fertilization = 1, irrigation = 2, all = 3>
+
 type ObservableState {
     # Observation variables
     cumsumfert: number<0..20000>, # cumulative nitrogen fertilizer applications (kg/ha)
@@ -13,16 +15,13 @@ type ObservableState {
     grnwt: number<0..50000>, # grain weight dry matter (kg/ha)'
     istage: number<1..9 step 1>, # DSSAT maize growing stage (index in order 7, 8, 9, 1, 2, 3, 4, 5 ,6)
     nstres: number<0..1>, # index of plant nitrogen stress (unitless)
-    rtdep: number<0..300>, # root depth (cm)
-    srad: number<0..50>, # solar radiation during the current day (MJ/m2/d)
-    sw: number<0..1>[9], # volumetric soil water content in soil layers (cm3 [water] / cm3 [soil])
     swfac: number<0..1>, # index of plant water stress (unitless)
-    tmax: number<-60..60>, # maximum temperature for current day (C)
     topwt: number<0..50000>, # above the ground population biomass (kg/ha)
-    totir: number<0..15000>, # total irrigated water (mm)
     vstage: number<0..30>, # vegetative growth stage (number of leaves)
-    wtdep: number<0..1000>, # depth to water table (cm)
     xlai: number<0..10>, # plant population leaf area index (m2_leaf/m2_soil)
+
+    # Config variables
+    mode: Mode, # mode that was set up by the lesson config
 
     # Context variables
     # Not sure how to hook up the context variables so they would be reported by the sim...
@@ -43,7 +42,7 @@ type Action {
 }
 
 type Config {
-    noop: number,
+    mode: Mode
 }
 
 function Reward(ss: SimState) {
@@ -67,7 +66,7 @@ graph (input: ObservableState): Action {
 
             lesson balancing {
                 scenario {
-                    noop: 0
+                    mode: Mode.fertilization
                 }
             }
         }

@@ -18,7 +18,7 @@ WORKDIR /src
 COPY . /src
 
 # Update this number to force a rebuild when the gym package changes.
-ARG CACHE_VERSION=6
+ARG CACHE_VERSION=25
 
 # Install simulator dependencies
 RUN pip3 install -r requirements.txt

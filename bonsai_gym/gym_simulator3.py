@@ -2,6 +2,8 @@ import argparse
 import logging
 from typing import Dict, Any, Union
 from time import time
+import random
+import os
 
 
 import gym
@@ -27,9 +29,38 @@ class GymSimulator3(SimulatorSession):
     ) -> None:
         super(GymSimulator3, self).__init__(config)
 
+        self.mode = 'uninitialized'
+        self.init_mode('all')
+
+        # optional parameters for controlling the simulation
+        self._headless = self._check_headless()
+        self._iteration_limit = iteration_limit  # default is no limit
+        self._skip_frame = skip_frame  # default is to process every frame
+
+        # book keeping for rate status
+        self._log_interval = 10.0  # seconds
+        self._last_status = time()
+        self.episode_count = 0
+
+    def init_mode(self, mode):
+        if self.mode == mode:
+            return # already in this mode
+
+        print(f'changing mode from {self.mode} to {mode}')
+
         # create and reset the gym environment
-        self._env = gym.make(self.environment_name)
-        self._env.seed(20)
+        env_args = {
+            'run_dssat_location': '/opt/dssat_pdi/run_dssat',
+            'log_saving_path': '/dssat_pdi.log',
+            'mode': mode,
+            'seed': random.randint(0, 1000000),
+            'random_weather': True,
+            'auxiliary_file_paths': ['/opt/gym_dssat_pdi/samples/test_files/GAGR.CLI'],
+        }
+
+        self._env = gym.make(self.environment_name, **env_args)
+        #self._env.seed(20)
+        self.mode = mode
         initial_observation = self._env.reset()
 
         # store initial gym state
@@ -40,16 +71,7 @@ class GymSimulator3(SimulatorSession):
             raise e
         self._set_last_state(state, 0, False)
 
-        # optional parameters for controlling the simulation
-        self._headless = self._check_headless()
-        self._iteration_limit = iteration_limit  # default is no limit
-        self._skip_frame = skip_frame  # default is to process every frame
-
-        # book keeping for rate status
         self.iteration_count = 0
-        self.episode_count = 0
-        self._log_interval = 10.0  # seconds
-        self._last_status = time()
 
     #
     # These MUST be implemented by the simulator.
@@ -92,6 +114,13 @@ class GymSimulator3(SimulatorSession):
         after reseting the gym environment. clients can override this
         to provide additional initialization.
         """
+        if 'mode' in parameters:
+            if parameters['mode'] == 1:
+                self.init_mode('fertilization')
+            elif parameters['mode'] == 2:
+                self.init_mode('irrigation')
+            elif parameters['mode'] == 3:
+                self.init_mode('all')
         observation = self._env.reset()
         log.debug("start state: " + str(observation))
         return observation
