@@ -121,6 +121,11 @@ class GymSimulator3(SimulatorSession):
                 self.init_mode('irrigation')
             elif parameters['mode'] == 3:
                 self.init_mode('all')
+
+        if 'seed' in parameters:
+            print(f'setting seed to {parameters["seed"]}')
+            self._env.seed(parameters['seed'])
+
         observation = self._env.reset()
         log.debug("start state: " + str(observation))
         return observation
