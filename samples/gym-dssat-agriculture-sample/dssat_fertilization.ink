@@ -20,6 +20,9 @@ type ObservableState {
     vstage: number<0..30>, # vegetative growth stage (number of leaves)
     xlai: number<0..10>, # plant population leaf area index (m2_leaf/m2_soil)
 
+    # Additional variables from internal environment state
+    cleach: number<0..20000>, # cumulative nitrate leaching (kg/ha)
+
     # Config variables
     mode: Mode, # mode that was set up by the lesson config
 
