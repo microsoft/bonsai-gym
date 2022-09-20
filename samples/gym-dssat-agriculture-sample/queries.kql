@@ -1,0 +1,30 @@
+EpisodeLog_CL //Click Run to see logs and Share to export as csv
+| where BrainName_s == "dssat_fert" and BrainVersion_d == 1
+    and TimeGenerated > ago(30d)
+| join kind=inner (
+    IterationLog_CL
+    | sort by Timestamp_t desc
+    )
+    on EpisodeId_g
+| project
+    AssessmentName = AssessmentName_s,
+    EpisodeId = EpisodeId_g,
+    IterationIndex = IterationIndex_d,
+    Timestamp = Timestamp_t,
+    SimConfig = parse_json(SimConfig_s),
+    SimState = parse_json(SimState_s),
+    SimAction = parse_json(SimAction_s),
+    Reward = Reward_d,
+    CumulativeReward = CumulativeReward_d,
+    GoalMetrics = parse_json(GoalMetrics_s),
+    Terminal = Terminal_b,
+    FinishReason = FinishReason_s,
+    LessonIndex = LessonIndex_d,
+    EpisodeType = EpisodeType_s
+| order by EpisodeId asc, IterationIndex asc
+| extend Yield=todouble(SimState.grnwt)
+| extend Fertilization=todouble(SimState.cumsumfert)
+| summarize max(Yield), max(Fertilization) by EpisodeId
+| summarize avg(max_Yield), stdev(max_Yield), avg(max_Fertilization), stdev(max_Fertilization)
+| extend PerToExpertYield = avg_max_Yield / 3686 * 100
+| extend PerToExpertFert = avg_max_Fertilization / 115.8 * 100
