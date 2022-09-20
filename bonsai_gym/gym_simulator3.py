@@ -60,6 +60,7 @@ class GymSimulator3(SimulatorSession):
 
         self._env = gym.make(self.environment_name, **env_args)
         #self._env.seed(20)
+        self.mode = mode
         initial_observation = self._env.reset()
 
         # store initial gym state
@@ -71,8 +72,6 @@ class GymSimulator3(SimulatorSession):
         self._set_last_state(state, 0, False)
 
         self.iteration_count = 0
-
-        self.mode == mode
 
     #
     # These MUST be implemented by the simulator.

@@ -8,9 +8,9 @@
 
 	// Environment variables
 	"containerEnv": {
-		"SIM_ACCESS_KEY": "some-value-here",
-		"SIM_WORKSPACE": "${localEnv:SOME_LOCAL_VAR}",
-		"SIM_ACR_PATH": "path-to-registry-here"
+		"SIM_ACCESS_KEY": "${localEnv:SIM_ACCESS_KEY}",
+		"SIM_WORKSPACE": "${localEnv:SIM_WORKSPACE}",
+		"SIM_ACR_PATH": "${localEnv:SIM_ACR_PATH}"
 	},
 
 	// Extensions to add on startup
