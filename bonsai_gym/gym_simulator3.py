@@ -23,13 +23,16 @@ class GymSimulator3(SimulatorSession):
     environment_name = ""  # name of the OpenAI Gym environment
 
     def __init__(
-        self, config: BonsaiClientConfig, iteration_limit: int = 0, skip_frame: int = 1,
-    ) -> None:
+        self, config: BonsaiClientConfig, iteration_limit: int = 0, skip_frame: int = 1, render: bool = False
+        ) -> None:
         super(GymSimulator3, self).__init__(config)
 
         # create and reset the gym environment
-        self._env = gym.make(self.environment_name)
-        self._env.seed(20)
+        if render:
+            self._env = gym.make(self.environment_name, render_mode='human') 
+        else:
+            self._env = gym.make(self.environment_name)
+        self._env.seed = 20
         initial_observation = self._env.reset()
 
         # store initial gym state
@@ -41,7 +44,6 @@ class GymSimulator3(SimulatorSession):
         self._set_last_state(state, 0, False)
 
         # optional parameters for controlling the simulation
-        self._headless = self._check_headless()
         self._iteration_limit = iteration_limit  # default is no limit
         self._skip_frame = skip_frame  # default is to process every frame
 
@@ -103,8 +105,8 @@ class GymSimulator3(SimulatorSession):
         clients can override this method to provide additional
         reward shaping.
         """
-        observation, reward, done, info = self._env.step(gym_action)
-        return observation, reward, done, info
+        observation, reward, done, truncated, info = self._env.step(gym_action)
+        return observation, reward, done, truncated, info
 
     def run_gym(self):
         """
@@ -152,7 +154,7 @@ class GymSimulator3(SimulatorSession):
         observation = None
 
         for i in range(self._skip_frame):
-            observation, reward, done, info = self.gym_simulate(gym_action)
+            observation, reward, done, truncated, info = self.gym_simulate(gym_action)
             self.iteration_count += 1
             rwd_accum += reward
 
@@ -168,11 +170,6 @@ class GymSimulator3(SimulatorSession):
                     done = True
                     log.debug("iteration_limit reached.")
                     break
-
-            # render if not headless
-            if not self._headless:
-                if "human" in self._env.metadata["render.modes"]:
-                    self._env.render()
 
         # print a periodic status of iterations and episodes
         self._periodic_status_update()
@@ -221,20 +218,3 @@ class GymSimulator3(SimulatorSession):
                 "reward so far is {}".format(self.episode_count, self.episode_reward)
             )
             self._last_status = time()
-
-    def _check_headless(self) -> bool:
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--headless", action="store_true", default=False)
-        args, unknown = parser.parse_known_args()
-        headless = args.headless
-        if headless:
-            log.debug(
-                "Running simulator headlessly, graphical "
-                "environment will not be displayed."
-            )
-        else:
-            log.debug(
-                "Starting simulator with graphical evironment. "
-                "Use --headless to disable."
-            )
-        return headless
