@@ -35,8 +35,8 @@ class GymDSSAT(GymSimulator3):
                 observation['mode'] = 0
 
             # Add cleach variable
-            if 'cleach' in self.env._state:
-                observation['cleach'] = self.env._state['cleach']
+            if 'cleach' in self._env._state:
+                observation['cleach'] = self._env._state['cleach']
 
             if observation.get('dap', 0) == 4377089:
                 # Correct strange very high value of dap
