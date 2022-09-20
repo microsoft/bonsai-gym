@@ -51,7 +51,8 @@ type Action {
 }
 
 type Config {
-    mode: Mode
+    mode: Mode,
+    seed: number<0..16777216 step 1>, # random seed value, if set to a nonzero value will reproduce consistent results, if unset or zero will randomize each episodes
 }
 
 function Reward(ss: SimState) {
@@ -76,7 +77,8 @@ graph (input: ObservableState): Action {
 
             lesson balancing {
                 scenario {
-                    mode: Mode.all
+                    mode: Mode.all,
+                    seed: 0, # 0 to use different random values each episode
                 }
             }
         }
