@@ -1,5 +1,5 @@
 EpisodeLog_CL //Click Run to see logs and Share to export as csv
-| where BrainName_s == "dssat_fert" and BrainVersion_d == 1
+| where BrainName_s == "dssat_fert" and BrainVersion_d == 10
     and TimeGenerated > ago(30d)
 | join kind=inner (
     IterationLog_CL
@@ -22,9 +22,12 @@ EpisodeLog_CL //Click Run to see logs and Share to export as csv
     LessonIndex = LessonIndex_d,
     EpisodeType = EpisodeType_s
 | order by EpisodeId asc, IterationIndex asc
-| extend Yield=todouble(SimState.grnwt)
-| extend Fertilization=todouble(SimState.cumsumfert)
-| summarize max(Yield), max(Fertilization) by EpisodeId
-| summarize avg(max_Yield), stdev(max_Yield), avg(max_Fertilization), stdev(max_Fertilization)
-| extend PerToExpertYield = avg_max_Yield / 3686 * 100
-| extend PerToExpertFert = avg_max_Fertilization / 115.8 * 100
+| extend Yield=round(todouble(SimState.grnwt),0)
+| extend Cleach=round(todouble(SimState.cleach),0)
+| extend Fertilization=round(todouble(SimState.cumsumfert))
+| summarize round(max(Yield),0), round(max(Fertilization),0), round(max(Cleach),0) by EpisodeId
+| summarize round(avg(max_Yield),0), round(stdev(max_Yield),0), round(avg(max_Fertilization),0), round(stdev(max_Fertilization),0),round(avg(max_Cleach),0), round(stdev(max_Cleach),0)
+| extend PerToExpertYield_3686 = round(avg_max_Yield / 3686 * 100,0)
+| extend PerToExpertFert_116 = round(avg_max_Fertilization / 116 * 100)
+| extend PerToExpertCleach_18 = round(avg_max_Fertilization / 18 * 100)
+
