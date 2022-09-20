@@ -1,0 +1,20 @@
+[
+    {
+        "type": "EpisodeStart",
+        "episodeStart": {
+            "config": {}
+        }
+    },
+    {
+        "type": "EpisodeStep",
+        "episodeStep": {
+            "action": {"action":[0.1]}
+        }
+    },
+    {
+        "type": "EpisodeStep",
+        "episodeStep": {
+            "action": {"action":[0.2]}
+        }
+    }
+]
