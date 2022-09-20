@@ -38,7 +38,6 @@ type SimState extends ObservableState {
 
 type Action {
     anfer: number<0 .. 200>, # nitrogen to fertilize for current day (kg/ha)
-    amir: number<0 .. 50>, # water depth to irrigate for current day (mm/m2 equivalent to L/m2)
 }
 
 type Config {
@@ -54,6 +53,7 @@ function Terminal(ss: SimState) {
 }
 
 simulator Simulator(action: Action, config: Config): SimState {
+    package "dssat"
 }
 
 graph (input: ObservableState): Action {

@@ -60,11 +60,12 @@ function Terminal(ss: SimState) {
 }
 
 simulator Simulator(action: Action, config: Config): SimState {
+    package "dssat"
 }
 
 graph (input: ObservableState): Action {
 
-    concept Fertilize(input): Action {
+    concept FertilizeAndIrrigate(input): Action {
         curriculum {
             source Simulator
             reward Reward
@@ -77,5 +78,5 @@ graph (input: ObservableState): Action {
             }
         }
     }
-    output Fertilize
+    output FertilizeAndIrrigate
 }
