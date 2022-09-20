@@ -1,2 +1,2 @@
 git+https://github.com/microsoft/bonsai-common
-git+https://github.com/microsoft/bonsai-gym@gym-dssat-agriculture-sample
+git+https://github.com/microsoft/bonsai-gym@forrest/add-cleach

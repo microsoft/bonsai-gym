@@ -24,6 +24,7 @@ class GymDSSAT(GymSimulator3):
     def gym_to_state(self, observation):
         print(f"observation: mode {self.mode}, {observation}")
         if observation:
+            # Add mode variable
             if self.mode == 'fertilization':
                 observation['mode'] = 1
             elif self.mode == 'irrigation':
@@ -33,7 +34,12 @@ class GymDSSAT(GymSimulator3):
             else:
                 observation['mode'] = 0
 
+            # Add cleach variable
+            if 'cleach' in self.env._state:
+                observation['cleach'] = self.env._state['cleach']
+
             if observation.get('dap', 0) == 4377089:
+                # Correct strange very high value of dap
                 # TODO: Not sure why this happens.
                 print("dap is 4377089. Strange that this is the first observation. We'll reassign it to 0.")
                 observation['dap'] = 0
