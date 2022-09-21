@@ -1,5 +1,5 @@
 EpisodeLog_CL //Click Run to see logs and Share to export as csv
-| where BrainName_s == "dssat_fert" and BrainVersion_d == 10
+| where BrainName_s == "dssat_fert" and BrainVersion_d == 12
     and TimeGenerated > ago(30d)
 | join kind=inner (
     IterationLog_CL
@@ -28,6 +28,6 @@ EpisodeLog_CL //Click Run to see logs and Share to export as csv
 | summarize round(max(Yield),0), round(max(Fertilization),0), round(max(Cleach),0) by EpisodeId
 | summarize round(avg(max_Yield),0), round(stdev(max_Yield),0), round(avg(max_Fertilization),0), round(stdev(max_Fertilization),0),round(avg(max_Cleach),0), round(stdev(max_Cleach),0)
 | extend PerToExpertYield_3686 = round(avg_max_Yield / 3686 * 100,0)
-| extend PerToExpertFert_116 = round(avg_max_Fertilization / 116 * 100)
-| extend PerToExpertCleach_18 = round(avg_max_Fertilization / 18 * 100)
+| extend PerToExpertFert_116 = round(avg_max_Fertilization / 116 * 100,0)
+| extend PerToExpertCleach_18 = round(avg_max_Cleach / 18 * 100,0)
 
