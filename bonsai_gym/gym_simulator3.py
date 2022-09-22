@@ -33,7 +33,7 @@ class GymSimulator3(SimulatorSession):
         else:
             self._env = gym.make(self.environment_name)
         self._env.seed = 20
-        initial_observation = self._env.reset()
+        initial_observation, _ = self._env.reset()
 
         # store initial gym state
         try:
@@ -94,7 +94,7 @@ class GymSimulator3(SimulatorSession):
         after reseting the gym environment. clients can override this
         to provide additional initialization.
         """
-        observation = self._env.reset()
+        observation, _ = self._env.reset()
         log.debug("start state: " + str(observation))
         return observation
 
