@@ -43,20 +43,13 @@ Three args can be used:
 '--debug' to set the logger level to debug      
 '--headless' to not render the simulator
 '--run' to run the simulator using a local docker container with the trained brain
+'--port' to set the port used by the docker image
 
 ## Using a trained brain in a local docker container 
 
-For using the local trained brain, inverted_pendulum_simulator.py sends the HTTP request to localhost using port 5000. If you want to change this behavior, modify the following lines in inverted_pendulum_simulator.py.
+For using the local trained brain add the command line argument --run. When in run mode, inverted_pendulum_simulator.py sends the HTTP request to localhost using port 5000. If you want to change this behavior, use the --port argument or edit the file to change the hostname.
       
-```sh
-# Runner global variables 
-# "http://localhost:5000/v1/prediction"
-URL = "http://localhost:5000"
-PREDICTION_PATH = "/v1/prediction"
-HEADERS = {
-  "Content-Type": "application/json"
-}
-```
+
 
 ## Questions about Inkling?
 
