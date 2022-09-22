@@ -16,14 +16,11 @@ log.setLevel(logging.INFO)
 
 # Runner global variables 
 # "http://localhost:5000/v1/prediction"
-URL = "http://localhost:5000"
+URL = "http://localhost"
 PREDICTION_PATH = "/v1/prediction"
 HEADERS = {
   "Content-Type": "application/json"
 }
-
-# Build the endpoint reference
-ENDPOINT = URL + PREDICTION_PATH
 
 
 class MujocoPendulum(GymSimulator3):
@@ -34,39 +31,8 @@ class MujocoPendulum(GymSimulator3):
     # simulator name from Inkling
     simulator_name = "Mujoco_InvertedDoublePendulum_Simulator"
 
-    def __init__(self, args):
-
-        config_client = BonsaiClientConfig(args)
-        self.args = args
-
-        render = False if self.args.headless else True
-        log.info("Render MujocoPendulum is set to ", str(render) )
-
-        super().__init__(config_client, iteration_limit = 0, skip_frame = 1, render = render)       
- 
-
-    def step(self, action) -> Dict[str, Any]:
-        
-        log.debug("Step with action: ", action )
-        next_state, step_reward, done, truncated, info = self.gym_env.step(action['action']) 
-
-        returned_dict = self.gym_to_state(next_state, step_reward, done)
-        log.debug("Step returned_dict is: ", returned_dict )
-
-        return {
-            'sim_halted': False,
-            'key': returned_dict
-        }
     
-    
-    def gym_to_state(self, next_state ):
-        
-        try:
-            if len(next_state) == 2 and type(next_state[1])==dict:
-                next_state = next_state[0]
-
-        except BaseException as err:
-            log.critical(f"Runner stopped gym_to_state does not received the correct states: {type(err).__name__}: {err}")  
+    def gym_to_state(self, next_state):
                 
         state = {
             "pos": float(next_state[0]),
@@ -85,47 +51,64 @@ class MujocoPendulum(GymSimulator3):
         return state
 
 
-    def action_to_gym(self, brain_action ):
-        
-        log.debug("Brain_action is: ", brain_action )
-        action = [brain_action['action'][0]]
+    def action_to_gym(self, brain_action):
 
-        return action        
+        gym_action = [brain_action['input_force']]
+        log.debug("gym_action is %s ", gym_action )
+
+        return gym_action        
 
 
 
 def train(args):
 
-    sim_model = MujocoPendulum(args)
+    config_client = BonsaiClientConfig(args)
+    render = False if args.headless else True
+
+    sim_model = MujocoPendulum(config_client, iteration_limit = 0, skip_frame = 1, render = render)
     sim_model.run_gym()
 
 
 def run(args):
 
-    sim_model = MujocoPendulum(args)
-    sim_model_state = sim_model.reset()   
+    url = URL + ':' + str(args.port) if args.port else URL + ':5000'
+    # Build the endpoint reference
+    endpoint = url + PREDICTION_PATH  
+
+    log.info("Endpoint used to connect to the brain is %s ", endpoint )    
+
+    config_client = BonsaiClientConfig(args)
+    render = True    
+
+    sim_model = MujocoPendulum(config_client, iteration_limit = 0, skip_frame = 1, render = render)
+    bonsai_state = sim_model.episode_start({})  
 
     try:
         while True:
 
             # Send states to brain for getting actions
-            # Send the POST request
-            response = requests.post(
-                        ENDPOINT,
-                        data = json.dumps(sim_model_state['key']),
-                        headers = HEADERS
-                    )
+            try:
+                response = requests.post(
+                            endpoint,
+                            data = json.dumps(bonsai_state),
+                            headers = HEADERS
+                        )
+                
+            except BaseException as err:
+                log.debug(f"HTTP Post error ({err})")
+                break
 
             # Extract the JSON response
             prediction = response.json()
-            # Access the JSON result and set action
-            action = {'action': [prediction['input_force']]}
 
             #Send actions to sim for next step
-            sim_model_state = sim_model.step(action)
+            bonsai_state = sim_model.episode_step(prediction)
+
+            log.debug("Bonsai_state is %s ", bonsai_state )
 
             #Stop the run if mujoco is returning terminal is True
-            if sim_model_state['key']["_gym_terminal"] ==1.0:
+            if bonsai_state["_gym_terminal"] ==1.0:
+                sim_model.episode_finish("End episode one") 
                 break
 
 
@@ -163,6 +146,8 @@ def main(argv):
         '--debug', help='debug.', action='store_true')       
     parser.add_argument(
         '--run', help='run with docker.', action='store_true')     
+    parser.add_argument(
+        '--port', help='run on port.', type=int)             
     parser.add_argument(
         '--headless', help='Render', action='store_true')    
 
