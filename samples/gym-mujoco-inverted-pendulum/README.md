@@ -47,7 +47,7 @@ Three args can be used:
 
 ## Using a trained brain in a local docker container 
 
-For using the local trained brain add the command line argument --run. When in run mode, inverted_pendulum_simulator.py sends the HTTP request to localhost using port 5000. If you want to change this behavior, use the --port argument or edit the file to change the hostname.
+For using the local trained brain add the command line argument --run. By defualt, in run mode the code sends the HTTP request to localhost using port 5000. If you want to change this behavior, use the --port argument or edit the file to change the hostname.
       
 
 
