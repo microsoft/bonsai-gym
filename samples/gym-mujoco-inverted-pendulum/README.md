@@ -4,7 +4,7 @@
 <img width="1428" alt="Mujoco" src="https://user-images.githubusercontent.com/14914357/191338828-d8ad6072-a7f4-4172-bffb-e750f96b197b.png">
 
 
-The agent controls the force applied on the cart (Box[-1,1]) and receives the states of the environment. 
+The agent controls the force applied on the cart (Box[-1,1]) and receives the states from the Gym nvironment. The states are then mapped to the Bonsai states as shown below.
 ```sh
 state = {
     "pos": float(next_state[0]),
