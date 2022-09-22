@@ -48,6 +48,11 @@ graph (input: GameState): Action {
             reward Reward
             terminal Terminal
             source AcrobotSimulator
+            lesson first_lesson {
+                scenario {
+                    deque_size: 1
+                }
+            }            
         }
     }
     output Height
