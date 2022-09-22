@@ -41,9 +41,9 @@ python3 python inverted_pendulum_simulator.py --headless
 Three args can be used: 
 
 '--debug' to set the logger level to debug      
-'--headless' to not render the simulator    
-'--run' to run the simulator using a local docker container with the trained brain  
-'--port' to set the port used by the docker image
+'--headless' to not render the simulator      
+'--run' to run the simulator using a local docker container with the trained brain      
+'--port' to set the port used by the docker image      
 
 ## Using a trained brain in a local docker container 
 
