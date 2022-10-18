@@ -53,7 +53,17 @@ Finally, we will push the container image to our Azure Container Registry and cr
 5. If you previously removed the `package "dssat"` statement in the Inkling, put it back in now
 6. Click the Train button. After a couple minutes, you should see multiple simulators registered and in use and episodes running in the Simulator (Live) pane of the Bonsai workspace. If you leave it running for a couple hours, the training graph should show hundreds of thousands of iterations completed and rising values for episode reward
 
-### Debugging the Simulator
+## Sample Inkling files for brain training
+
+In the Inkling folder, the following Inkling files are available:
+* [Goals driven, fertilization and irrigation](Inkling/goals_all.ink)
+* [Reward function from gym, fertilization and irrigation](Inkling/gym_reward_all.ink)
+* [Reward function from gym, fertilization only](Inkling/gym_reward_fertilization.ink)
+* [Reward function from gym, irrigation only](Inkling/gym_reward_irrigation.ink)
+* [Programmed expert policy based on gym-DSSAT research paper, fertilization only](Inkling/programmed_expert_fertilization.ink)
+* [Programmed policy that applies no fertilizer](Inkling/programmed_null_fertilization.ink)
+
+## Debugging the Simulator
 
 1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Remote Development Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
 2. Start VS Code and open the `.devcontainer/.devcontainer.json` file. Edit the environment variables to include information about your Bonsai workspace.
