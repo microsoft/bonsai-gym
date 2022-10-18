@@ -65,6 +65,8 @@ In the Inkling folder, the following Inkling files are available:
 * [Programmed expert policy based on gym-DSSAT research paper, fertilization only](Inkling/programmed_expert_fertilization.ink)
 * [Programmed policy that applies no fertilizer](Inkling/programmed_null_fertilization.ink)
 
+For assessing different brain versions, it can be useful to create custom assessments that use the same random seeds values so that the growing conditions are comparable. For example, [custom_assessment_30_fixed_random_seeds.json](custom_assessment_30_fixed_random_seeds.json).
+
 ## Debugging the Simulator
 
 1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Remote Development Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
