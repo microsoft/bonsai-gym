@@ -9,7 +9,11 @@ For more information about DSSAT and the reinforcement learning scenarios provid
 This was used in a hackathon to train brains that control irrigation and fertilization actions to maximize crop yield and minimize water pollution runoff due to leaching.
 
 <details>
-<summary>## Creating the Bonsai simulator</summary>
+<summary>
+
+## Creating the Bonsai simulator
+
+</summary>
 <p>
 
 Before starting, you will need the following:
