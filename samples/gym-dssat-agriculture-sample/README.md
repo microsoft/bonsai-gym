@@ -8,13 +8,10 @@ For more information about DSSAT and the reinforcement learning scenarios provid
 
 This was used in a hackathon to train brains that control irrigation and fertilization actions to maximize crop yield and minimize water pollution runoff due to leaching.
 
-<details>
-<summary>
+<details><summary>
 
 ## Creating the Bonsai simulator
-
 </summary>
-<p>
 
 Before starting, you will need the following:
 1. An Azure subscription and Bonsai workspace. See [Account setup](https://docs.microsoft.com/bonsai/guides/account-setup) for more information.
@@ -60,11 +57,12 @@ Finally, we will push the container image to our Azure Container Registry and cr
 4. Create Bonsai sim with: `bonsai simulator package container create --name dssat --image-uri $env:SIM_ACR_PATH/gym-dssat-bonsai:latest --cores-per-instance 1 --memory-in-gb-per-instance 1 --os-type Linux --max-instance-count 25`
 5. If you previously removed the `package "dssat"` statement in the Inkling, put it back in now
 6. Click the Train button. After a couple minutes, you should see multiple simulators registered and in use and episodes running in the Simulator (Live) pane of the Bonsai workspace. If you leave it running for a couple hours, the training graph should show hundreds of thousands of iterations completed and rising values for episode reward
-
-</p>
 </details>
 
+<details><summary>
+
 ## Sample Inkling files for brain training
+</summary>
 
 In the Inkling folder, the following Inkling files are available:
 * [Goals driven, fertilization and irrigation](Inkling/goals_all.ink)
@@ -75,8 +73,12 @@ In the Inkling folder, the following Inkling files are available:
 * [Programmed policy that applies no fertilizer](Inkling/programmed_null_fertilization.ink)
 
 For assessing different brain versions, it can be useful to create custom assessments that use the same random seeds values so that the growing conditions are comparable. For example, [custom_assessment_30_fixed_random_seeds.json](custom_assessment_30_fixed_random_seeds.json).
+</details>
+
+<details><summary>
 
 ## Debugging the Simulator
+</summary>
 
 1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Remote Development Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
 2. Start VS Code and open the `.devcontainer/.devcontainer.json` file. Edit the environment variables to include information about your Bonsai workspace.
@@ -94,3 +96,4 @@ gym_lib = '/opt/gym_dssat_pdi/lib/python3.9/site-packages'
 if gym_lib not in sys.path:
     sys.path.append(gym_lib)
 ```
+</details>
