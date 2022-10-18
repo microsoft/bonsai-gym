@@ -6,6 +6,8 @@ This sample uses the [Decision Support System for Agrotechnology Transfer (DSSAT
 
 For more information about DSSAT and the reinforcement learning scenarios provided by gym_dssat_pdi_project, see [gym-DSSAT: a crop model turned into a Reinforcement Learning environment](https://arxiv.org/abs/2207.03270).
 
+This was used in a hackathon to train brains that control irrigation and fertilization actions to maximize crop yield and minimize water pollution runoff due to leaching.
+
 ## Creating the Bonsai simulator
 
 Before starting, you will need the following:
