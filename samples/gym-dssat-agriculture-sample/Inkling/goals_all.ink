@@ -60,7 +60,7 @@ simulator Simulator(action: Action, config: Config): SimState {
 
 graph (input: ObservableState): Action {
 
-    concept Fertilize(input): Action {
+    concept FertilizeAndIrrigate(input): Action {
         curriculum {
             source Simulator
             goal (state: SimState, action: Action) {
@@ -80,5 +80,5 @@ graph (input: ObservableState): Action {
             }
         }
     }
-    output Fertilize
+    output FertilizeAndIrrigate
 }
