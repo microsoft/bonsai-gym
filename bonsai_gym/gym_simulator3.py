@@ -94,19 +94,7 @@ class GymSimulator3(SimulatorSession):
         after reseting the gym environment. clients can override this
         to provide additional initialization.
         """
-        if 'mode' in parameters:
-            if parameters['mode'] == 1:
-                self.init_mode('fertilization')
-            elif parameters['mode'] == 2:
-                self.init_mode('irrigation')
-            elif parameters['mode'] == 3:
-                self.init_mode('all')
-
-        if parameters.get('seed', 0) != 0:
-            print(f'setting seed to {parameters["seed"]}')
-            self._env.seed(parameters['seed'])
-        else:
-            self._env.seed(random.randint(0, 1000000))
+        print("base gym_episode_start")
 
         observation = self._env.reset()
         log.debug("start state: " + str(observation))

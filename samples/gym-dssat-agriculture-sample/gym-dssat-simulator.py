@@ -89,6 +89,26 @@ class GymDSSAT(GymSimulator3):
         print(f"action: {action}")
         return action
 
+    def gym_episode_start(self, parameters):
+        print("super gym_episode_start")
+
+        # If a different mode is requested, use init_mode to reinitialize the environment.
+        if 'mode' in parameters:
+            if parameters['mode'] == 1:
+                self.init_mode('fertilization')
+            elif parameters['mode'] == 2:
+                self.init_mode('irrigation')
+            elif parameters['mode'] == 3:
+                self.init_mode('all')
+
+        # Initialize the seed to a specific value (if requested) or a random value.
+        if parameters.get('seed', 0) != 0:
+            print(f'setting seed to {parameters["seed"]}')
+            self._env.seed(parameters['seed'])
+        else:
+            self._env.seed(random.randint(0, 1000000))
+
+        super().gym_episode_start(parameters)
 
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
