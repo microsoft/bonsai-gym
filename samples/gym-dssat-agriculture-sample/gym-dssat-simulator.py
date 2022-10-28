@@ -1,12 +1,12 @@
 import sys
 import logging
 import random
-import gym
 
 # For manual debugging
 gym_lib = '/opt/gym_dssat_pdi/lib/python3.9/site-packages'
 if gym_lib not in sys.path:
     sys.path.append(gym_lib)
+import gym
 
 from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from bonsai_gym import GymSimulator3
@@ -108,7 +108,7 @@ class GymDSSAT(GymSimulator3):
         else:
             self._env.seed(random.randint(0, 1000000))
 
-        super().gym_episode_start(parameters)
+        return super().gym_episode_start(parameters)
 
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
