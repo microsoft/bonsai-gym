@@ -9,3 +9,6 @@ __pycache__/
 
 # Visual Studio cache/options directory
 .vs/
+
+# VS Code files
+.vscode/
