@@ -108,7 +108,31 @@ class GymDSSAT(GymSimulator3):
         else:
             self._env.seed(random.randint(0, 1000000))
 
-        return super().gym_episode_start(parameters)
+        observation = super().gym_episode_start(parameters)
+        self.previous_observation = observation
+        return observation
+
+    def gym_simulate(self, gym_action):
+        observation, reward, done, info = super().gym_simulate(gym_action)
+
+        # The DSSAT gym environment returns some unusual values that the Bonsai
+        # gym simulator doesn't like. We'll fix them here.
+
+        if isinstance(reward, list):
+            # In the all mode (both irrigation and fertilization) the reward is
+            # a list of two values. We'll add them together.
+            reward = sum(reward)
+
+        if done:
+            # When done, None values are returned.
+            if reward == None:
+                reward = 0 # None->0 reward
+
+            if observation == None:
+                observation = self.previous_observation # use previous observation
+
+        self.previous_observation = observation
+        return observation, reward, done, info
 
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator

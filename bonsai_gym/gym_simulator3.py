@@ -2,8 +2,6 @@ import argparse
 import logging
 from typing import Dict, Any, Union
 from time import time
-import random
-import os
 
 
 import gym
@@ -94,8 +92,6 @@ class GymSimulator3(SimulatorSession):
         after reseting the gym environment. clients can override this
         to provide additional initialization.
         """
-        print("base gym_episode_start")
-
         observation = self._env.reset()
         log.debug("start state: " + str(observation))
         return observation
@@ -108,7 +104,6 @@ class GymSimulator3(SimulatorSession):
         reward shaping.
         """
         observation, reward, done, info = self._env.step(gym_action)
-        print(f'reward: {reward}')
         return observation, reward, done, info
 
     def run_gym(self):
@@ -157,19 +152,7 @@ class GymSimulator3(SimulatorSession):
         observation = None
 
         for i in range(self._skip_frame):
-            print(f'gym_simulate({gym_action})')
             observation, reward, done, info = self.gym_simulate(gym_action)
-            print(f'-> observation: {observation}, reward: {reward}, done: {done}, info: {info}')
-            if done and reward == None:
-                reward = 0
-                print(f'set done reward to {reward}')
-            if isinstance(reward, list):
-                # In the all mode (both irrigation and fertilization) the reward is a list of two values.
-                # TODO: Not clear how this should be handled in Bonsai. For now, let's add them together.
-                #       Perhaps we should return them in separate values or perhaps we should be using goals
-                #       instead of the simulator-supplied gym rewards?
-                reward = sum(reward)
-                print(f'flattened reward to {reward}')
             self.iteration_count += 1
             rwd_accum += reward
 
@@ -199,9 +182,7 @@ class GymSimulator3(SimulatorSession):
         self.episode_reward += reward
 
         # convert state and return to the server
-        print(f'gym_to_state({observation})')
         state = self.gym_to_state(observation)
-        print(f'-> state: {state}, reward: {reward}, done: {done}')
         state = self._set_last_state(state, reward, done)
         return state
 
@@ -226,10 +207,7 @@ class GymSimulator3(SimulatorSession):
     #
 
     def _set_last_state(self, state: Dict[str, Any], reward: float, terminal: bool):
-        if terminal and state == None:
-            print('not updating _last_state because terminal and state is None')
-        else:
-            self._last_state = state
+        self._last_state = state
         self._last_state[STATE_REWARD_KEY] = reward
         self._last_state[STATE_TERMINAL_KEY] = terminal
         return self._last_state
