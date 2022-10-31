@@ -7,7 +7,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
+    libjpeg-dev \
     zlib1g-dev \
+    python3-dev \
     swig\
     git
 
@@ -18,7 +20,7 @@ WORKDIR /src
 COPY . /src
 
 # Update this number to force a rebuild when the gym package changes.
-ARG CACHE_VERSION=28
+ARG CACHE_VERSION=29
 
 # Install simulator dependencies
 RUN pip3 install -r requirements.txt
