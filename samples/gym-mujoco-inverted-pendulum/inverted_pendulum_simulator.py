@@ -56,7 +56,7 @@ class MujocoPendulum(GymSimulator3):
         gym_action = [brain_action['input_force']]
         log.debug("gym_action is %s ", gym_action )
 
-        return gym_action        
+        return gym_action 
 
 
 
