@@ -1,0 +1,127 @@
+{
+    "version": "1.0.0",
+    "context": {},
+    "recipe": {},
+    "episodeConfigurations": [
+        {
+            "mode": 3,
+            "seed": 100
+        },
+        {
+            "mode": 3,
+            "seed": 101
+        },
+        {
+            "mode": 3,
+            "seed": 102
+        },
+        {
+            "mode": 3,
+            "seed": 103
+        },
+        {
+            "mode": 3,
+            "seed": 104
+        },
+        {
+            "mode": 3,
+            "seed": 105
+        },
+        {
+            "mode": 3,
+            "seed": 106
+        },
+        {
+            "mode": 3,
+            "seed": 107
+        },
+        {
+            "mode": 3,
+            "seed": 108
+        },
+        {
+            "mode": 3,
+            "seed": 109
+        },
+        {
+            "mode": 3,
+            "seed": 110
+        },
+        {
+            "mode": 3,
+            "seed": 111
+        },
+        {
+            "mode": 3,
+            "seed": 112
+        },
+        {
+            "mode": 3,
+            "seed": 113
+        },
+        {
+            "mode": 3,
+            "seed": 114
+        },
+        {
+            "mode": 3,
+            "seed": 115
+        },
+        {
+            "mode": 3,
+            "seed": 116
+        },
+        {
+            "mode": 3,
+            "seed": 117
+        },
+        {
+            "mode": 3,
+            "seed": 118
+        },
+        {
+            "mode": 3,
+            "seed": 119
+        },
+        {
+            "mode": 3,
+            "seed": 120
+        },
+        {
+            "mode": 3,
+            "seed": 121
+        },
+        {
+            "mode": 3,
+            "seed": 122
+        },
+        {
+            "mode": 3,
+            "seed": 123
+        },
+        {
+            "mode": 3,
+            "seed": 124
+        },
+        {
+            "mode": 3,
+            "seed": 125
+        },
+        {
+            "mode": 3,
+            "seed": 126
+        },
+        {
+            "mode": 3,
+            "seed": 127
+        },
+        {
+            "mode": 3,
+            "seed": 128
+        },
+        {
+            "mode": 3,
+            "seed": 129
+        }
+   ]
+}
