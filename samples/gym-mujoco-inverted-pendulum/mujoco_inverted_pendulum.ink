@@ -33,11 +33,6 @@ function Terminal(gs: MujocoState) {
     return gs._gym_terminal
 }
 
-const max_position = 100 #m
-const max_speed = 100 #m/s
-const max_ang_speed = 100 #rad/s
-const max_constraint = 100 #N
-
 type MujocoState {
     pos: Number.Float32,
     sin_hinge1: Number.Float32,
