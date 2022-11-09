@@ -1,6 +1,8 @@
-import sys
 import logging
+import sys
+
 from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
+
 from bonsai_gym import GymSimulator3
 
 log = logging.getLogger("gym_simulator")

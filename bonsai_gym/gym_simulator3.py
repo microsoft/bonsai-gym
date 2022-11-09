@@ -1,17 +1,16 @@
-import argparse
 import abc
+import argparse
+import json
 import logging
 from time import time
 from typing import Any, Dict
-
-import json
 
 import gym
 from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface
 
-from bonsai_gym.serializers import NumpyEncoder
 from bonsai_gym.bonsai_connector import BonsaiConnector, BonsaiEventType
+from bonsai_gym.serializers import NumpyEncoder
 
 logFormatter = "[%(asctime)s][%(levelname)s] %(message)s"
 logging.basicConfig(format=logFormatter, datefmt="%Y-%m-%d %H:%M:%S")
@@ -27,11 +26,15 @@ class GymSimulator3(abc.ABC):
     environment_name = ""  # name of the OpenAI Gym environment
 
     def __init__(
-        self, iteration_limit: int = 0, skip_frame: int = 1,
+        self,
+        iteration_limit: int = 0,
+        skip_frame: int = 1,
     ) -> None:
 
         # create and reset the gym environment
-        self._env = gym.make(self.environment_name, render_mode="human" if not self.headless else None)
+        self._env = gym.make(
+            self.environment_name, render_mode="human" if not self.headless else None
+        )
         initial_observation, _ = self._env.reset(seed=20)
 
         self._set_last_state(initial_observation, 0, False)
@@ -218,7 +221,9 @@ class GymSimulator3(abc.ABC):
     def _sanitize_state(state):
         return json.loads(json.dumps(state, cls=NumpyEncoder))
 
-    def _set_last_state(self, observation: Dict[str, Any], reward: float, terminal: bool):
+    def _set_last_state(
+        self, observation: Dict[str, Any], reward: float, terminal: bool
+    ):
         state = self.gym_to_state(observation)
         state[STATE_REWARD_KEY] = reward
         state[STATE_TERMINAL_KEY] = terminal
@@ -226,8 +231,7 @@ class GymSimulator3(abc.ABC):
         return self._last_state
 
     def _periodic_status_update(self):
-        """ print a periodic status update showing iterations/sec
-        """
+        """print a periodic status update showing iterations/sec"""
         if time() - self._last_status > self._log_interval:
             log.info(
                 "Episode {} is still running, "

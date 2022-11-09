@@ -6,13 +6,13 @@ __copyright__ = "Copyright 2021, Microsoft Corp."
 import datetime
 import logging
 import sys
-from typing import Any, cast, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Tuple, Union, cast
 
+from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from teachDRL.gym_flowers.envs.bipedal_walker_continuous import (
     BipedalWalkerContinuous as BipedalWalkerContinuous,
 )
 
-from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from bonsai_gym import GymSimulator3
 
 log = logging.getLogger("bonsai_gym.gym_simulator3")
@@ -71,10 +71,10 @@ class BipedalWalkerSimulator(GymSimulator3):
         self, action: Dict[str, Union[int, float]]
     ) -> List[Union[int, float]]:
         return [
-            action['leg_1_torque'][0], # hip joint 1
-            action['leg_1_torque'][1], # knee joint 1
-            action['leg_2_torque'][0], # hip joint 2
-            action['leg_2_torque'][1], # knee joint 2
+            action["leg_1_torque"][0],  # hip joint 1
+            action["leg_1_torque"][1],  # knee joint 1
+            action["leg_2_torque"][0],  # hip joint 2
+            action["leg_2_torque"][1],  # knee joint 2
         ]
 
     def episode_start(self, config: Dict[str, Any]) -> Any:

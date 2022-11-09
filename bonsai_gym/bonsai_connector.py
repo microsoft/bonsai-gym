@@ -2,10 +2,11 @@ import dataclasses
 from enum import Enum
 from typing import Dict, Optional, Union
 
-from microsoft_bonsai_api.simulator.client import (BonsaiClient,
-                                                   BonsaiClientConfig)
+from microsoft_bonsai_api.simulator.client import BonsaiClient, BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import (
-    SimulatorInterface, SimulatorState)
+    SimulatorInterface,
+    SimulatorState,
+)
 
 
 class BonsaiEventType(Enum):
@@ -36,7 +37,7 @@ class BonsaiConnector:
             workspace_name=self.workspace,
             body=reg_info,
         )
-        print(f'created session with session_id {self.registered_session.session_id}')
+        print(f"created session with session_id {self.registered_session.session_id}")
         self.sequence_id = 1
 
     @staticmethod
@@ -52,7 +53,7 @@ class BonsaiConnector:
         sim_state = SimulatorState(
             sequence_id=self.sequence_id,
             state=gym_state,
-            halted=gym_state.get('halted', False),
+            halted=gym_state.get("halted", False),
         )
         event = self.client.session.advance(
             workspace_name=self.workspace,
@@ -60,15 +61,19 @@ class BonsaiConnector:
             body=sim_state,
         )
         self.sequence_id = event.sequence_id
-        if event.type == 'Idle':
+        if event.type == "Idle":
             return BonsaiEvent(BonsaiEventType.IDLE, {})
-        elif event.type == 'EpisodeStart':
-            return BonsaiEvent(BonsaiEventType.EPISODE_START, event.episode_start.config)
-        elif event.type == 'EpisodeStep':
+        elif event.type == "EpisodeStart":
+            return BonsaiEvent(
+                BonsaiEventType.EPISODE_START, event.episode_start.config
+            )
+        elif event.type == "EpisodeStep":
             return BonsaiEvent(BonsaiEventType.EPISODE_STEP, event.episode_step.action)
-        elif event.type == 'EpisodeFinish':
-            return BonsaiEvent(BonsaiEventType.EPISODE_FINISH, event.episode_finish.reason)
-        elif event.type == 'Unregister':
+        elif event.type == "EpisodeFinish":
+            return BonsaiEvent(
+                BonsaiEventType.EPISODE_FINISH, event.episode_finish.reason
+            )
+        elif event.type == "Unregister":
             raise RuntimeError(
                 "Simulator Session unregistered by platform because of ",
                 event.unregister.details,

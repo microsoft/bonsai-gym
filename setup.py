@@ -1,5 +1,6 @@
 import logging
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)

@@ -1,4 +1,5 @@
 import logging
+
 from bonsai_gym import GymSimulator3
 
 log = logging.getLogger("gym_simulator")

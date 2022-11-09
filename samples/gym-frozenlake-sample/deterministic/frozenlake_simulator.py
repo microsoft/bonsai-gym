@@ -1,9 +1,10 @@
-import sys
 import logging
+import sys
 
-from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
-from bonsai_gym import GymSimulator3
 from gym.envs.registration import register
+from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
+
+from bonsai_gym import GymSimulator3
 
 log = logging.getLogger("gym_simulator")
 log.setLevel(logging.DEBUG)
