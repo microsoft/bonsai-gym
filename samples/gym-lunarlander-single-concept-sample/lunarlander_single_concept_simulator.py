@@ -1,6 +1,6 @@
 import sys
 import logging
-from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
+
 from bonsai_gym import GymSimulator3
 
 log = logging.getLogger("gym_simulator")
@@ -30,6 +30,5 @@ class LunarLander(GymSimulator3):
 
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
-    config = BonsaiClientConfig(argv=sys.argv)
-    sim = LunarLander(config)
+    sim = LunarLander()
     sim.run_gym()

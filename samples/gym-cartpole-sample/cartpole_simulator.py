@@ -1,6 +1,4 @@
-import sys
 import logging
-from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from bonsai_gym import GymSimulator3
 
 log = logging.getLogger("gym_simulator")
@@ -9,7 +7,7 @@ log.setLevel(logging.DEBUG)
 
 class CartPole(GymSimulator3):
     # Environment name, from openai-gym
-    environment_name = "CartPole-v0"
+    environment_name = "CartPole-v1"
 
     # Simulator name from Inkling
     simulator_name = "CartpoleSimulator"
@@ -31,6 +29,5 @@ class CartPole(GymSimulator3):
 
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
-    config = BonsaiClientConfig(argv=sys.argv)
-    sim = CartPole(config)
+    sim = CartPole()
     sim.run_gym()

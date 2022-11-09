@@ -1,6 +1,4 @@
-import sys
 import logging
-from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from bonsai_gym import GymSimulator3
 
 log = logging.getLogger("gym_simulator")
@@ -33,7 +31,5 @@ class Acrobot(GymSimulator3):
 
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
-    config = BonsaiClientConfig(argv=sys.argv)
-
-    sim = Acrobot(config, iteration_limit=500)
+    sim = Acrobot(iteration_limit=500)
     sim.run_gym()

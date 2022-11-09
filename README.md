@@ -8,57 +8,56 @@ A python library for integrating Bonsai BRAIN with Open AI Gym environments.
 
 ## Installation
 
-One of the requirements `bonsai-common` is not located on pypi and must be installed from the github repo
-
-`$ pip install git+https://github.com/microsoft/bonsai-common`
-
-Install the latest bonsai-gym from github.
+```bash
+$ pip install git+https://github.com/microsoft/bonsai-gym
+```
 
 **NOTE** - The bonsai-gym located on pypi is an older release that we no longer support. We have no plans to publish this to pypi
 
-`$ pip install git+https://github.com/microsoft/bonsai-gym`
 
 ## Usage
 
 Once installed, import `bonsai_gym` in order to access
-base class `GymSimulator3`, which implements all of the
+the class `GymSimulator3`, which implements all of the
 environment-independent Bonsai SDK integrations necessary to
 train a Bonsai BRAIN to play an OpenAI Gym simulator.
 
 See [CartPole sample](samples/gym-cartpole-sample/cartpole_simulator.py)
 
 ```python
-    import gym
+import logging
+from bonsai_gym import GymSimulator3
 
-    from bonsai_gym import GymSimulator3
-
-    class CartPole(GymSimulator3):
-        # Environment name, from openai-gym
-        environment_name = "CartPole-v0"
-
-        # Simulator name from Inkling
-        simulator_name = "CartpoleSimulator"
-
-        # convert openai gym observation to our state type
-        def gym_to_state(self, observation):
-            state = {
-                "position": observation[0],
-                "velocity": observation[1],
-                "angle": observation[2],
-                "rotation": observation[3],
-            }
-            return state
-
-        # convert our action type into openai gym action
-        def action_to_gym(self, action):
-            return action["command"]
+log = logging.getLogger("gym_simulator")
+log.setLevel(logging.DEBUG)
 
 
-    if __name__ == "__main__":
-        # create a brain, openai-gym environment, and simulator
-        config = BonsaiClientConfig(argv=sys.argv)
-        sim = CartPole(config)
-        sim.run_gym()
+class CartPole(GymSimulator3):
+    # Environment name, from openai-gym
+    environment_name = "CartPole-v0"
+
+    # Simulator name from Inkling
+    simulator_name = "CartpoleSimulator"
+
+    # convert openai gym observation to our state type
+    def gym_to_state(self, observation):
+        state = {
+            "position": observation[0],
+            "velocity": observation[1],
+            "angle": observation[2],
+            "rotation": observation[3],
+        }
+        return state
+
+    # convert our action type into openai gym action
+    def action_to_gym(self, action):
+        return action["command"]
+
+
+if __name__ == "__main__":
+    # create a brain, openai-gym environment, and simulator
+    sim = CartPole()
+    sim.run_gym()
 ```
 
 ## Running Simulator

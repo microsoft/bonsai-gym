@@ -1,47 +1,42 @@
 import argparse
+import abc
 import logging
-from typing import Dict, Any, Union
 from time import time
+from typing import Any, Dict
 
+import json
 
 import gym
-from bonsai_common import SimulatorSession
 from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface
+
+from bonsai_gym.serializers import NumpyEncoder
+from bonsai_gym.bonsai_connector import BonsaiConnector, BonsaiEventType
 
 logFormatter = "[%(asctime)s][%(levelname)s] %(message)s"
 logging.basicConfig(format=logFormatter, datefmt="%Y-%m-%d %H:%M:%S")
 log = logging.getLogger(__name__)
-log.setLevel(level=logging.INFO)
+log.setLevel(level=logging.DEBUG)
 
 STATE_REWARD_KEY = "_gym_reward"
 STATE_TERMINAL_KEY = "_gym_terminal"
 
 
-class GymSimulator3(SimulatorSession):
+class GymSimulator3(abc.ABC):
     simulator_name = ""  # name of the simulation in the inkling file
     environment_name = ""  # name of the OpenAI Gym environment
 
     def __init__(
-        self, config: BonsaiClientConfig, iteration_limit: int = 0, skip_frame: int = 1,
+        self, iteration_limit: int = 0, skip_frame: int = 1,
     ) -> None:
-        super(GymSimulator3, self).__init__(config)
 
         # create and reset the gym environment
-        self._env = gym.make(self.environment_name)
-        self._env.seed(20)
-        initial_observation = self._env.reset()
+        self._env = gym.make(self.environment_name, render_mode="human" if not self.headless else None)
+        initial_observation, _ = self._env.reset(seed=20)
 
-        # store initial gym state
-        try:
-            # initial reward = 0; initial terminal False
-            state = self.gym_to_state(initial_observation)
-        except NotImplementedError as e:
-            raise e
-        self._set_last_state(state, 0, False)
+        self._set_last_state(initial_observation, 0, False)
 
         # optional parameters for controlling the simulation
-        self._headless = self._check_headless()
         self._iteration_limit = iteration_limit  # default is no limit
         self._skip_frame = skip_frame  # default is to process every frame
 
@@ -50,11 +45,13 @@ class GymSimulator3(SimulatorSession):
         self.episode_count = 0
         self._log_interval = 10.0  # seconds
         self._last_status = time()
+        self.connector = BonsaiConnector(self.get_interface())
 
     #
     # These MUST be implemented by the simulator.
     #
 
+    @abc.abstractmethod
     def gym_to_state(self, observation: Any) -> Dict[str, Any]:
         """Convert a gym observation into an Inkling state
 
@@ -69,8 +66,8 @@ class GymSimulator3(SimulatorSession):
             environment for details.
         :return A dictionary matching the Inkling state schema.
         """
-        raise NotImplementedError("No gym_to_state() implementation found.")
 
+    @abc.abstractmethod
     def action_to_gym(self, action) -> Any:
         """Convert an Inkling action schema into a gym action.
 
@@ -80,7 +77,6 @@ class GymSimulator3(SimulatorSession):
         :param action: A dictionary as defined in the Inkling schema.
         :return A gym action as defined in the gym environment
         """
-        raise NotImplementedError("No action_to_gym() implementation found.")
 
     #
     # These MAY be implemented by the simulator.
@@ -92,7 +88,7 @@ class GymSimulator3(SimulatorSession):
         after reseting the gym environment. clients can override this
         to provide additional initialization.
         """
-        observation = self._env.reset()
+        observation, _ = self._env.reset()
         log.debug("start state: " + str(observation))
         return observation
 
@@ -103,27 +99,47 @@ class GymSimulator3(SimulatorSession):
         clients can override this method to provide additional
         reward shaping.
         """
-        observation, reward, done, info = self._env.step(gym_action)
+        observation, reward, done, truncated, info = self._env.step(gym_action)
         return observation, reward, done, info
+
+    def dispatch_event(self, next_event):
+        if next_event.event_type == BonsaiEventType.EPISODE_START:
+            self.episode_start(next_event.event_content)
+        elif next_event.event_type == BonsaiEventType.EPISODE_STEP:
+            self.episode_step(next_event.event_content)
+        elif next_event.event_type == BonsaiEventType.EPISODE_FINISH:
+            self.episode_finish(next_event.event_content)
+        elif next_event.event_type == BonsaiEventType.IDLE:
+            print("Idling")
+        else:
+            raise RuntimeError(
+                f"Unexpected BonsaiEventType. Got {next_event.event_type}"
+            )
 
     def run_gym(self):
         """
-        runs the simulation until cancelled or finished
+        Run the simulation until cancelled or finished
         """
-        while self.run():
-            continue
-        log.info("Simulator finished running")
+        try:
+            while True:
+                next_event = self.connector.next_event(self.get_state())
+                self.dispatch_event(next_event)
+                print(next_event.event_type, next_event.event_content)
+        except KeyboardInterrupt:
+            log.info("Terminating...")
+        finally:
+            self.connector.close_session()
+            log.info("Simulator finished running")
 
     #
     # SDK3 SimulatorSession methods
     #
 
     def get_interface(self):
-        return SimulatorInterface(
-            name=self.simulator_name,
-            timeout=60,
-            simulator_context=self.get_simulator_context(),
-        )
+        return {
+            "name": self.simulator_name,
+            "timeout": 60,
+        }
 
     def get_state(self):
         return self._last_state
@@ -138,8 +154,7 @@ class GymSimulator3(SimulatorSession):
 
         # initial observation
         observation = self.gym_episode_start(config)
-        state = self.gym_to_state(observation)
-        state = self._set_last_state(state, 0, False)
+        state = self._set_last_state(observation, 0, False)
         return state
 
     def episode_step(self, action: Dict[str, Any]):
@@ -169,11 +184,6 @@ class GymSimulator3(SimulatorSession):
                     log.debug("iteration_limit reached.")
                     break
 
-            # render if not headless
-            if not self._headless:
-                if "human" in self._env.metadata["render.modes"]:
-                    self._env.render()
-
         # print a periodic status of iterations and episodes
         self._periodic_status_update()
 
@@ -181,9 +191,7 @@ class GymSimulator3(SimulatorSession):
         reward = rwd_accum / (i + 1)
         self.episode_reward += reward
 
-        # convert state and return to the server
-        state = self.gym_to_state(observation)
-        state = self._set_last_state(state, reward, done)
+        state = self._set_last_state(observation, reward, done)
         return state
 
     def episode_finish(self, reason: str):
@@ -206,10 +214,15 @@ class GymSimulator3(SimulatorSession):
     # Internal methods
     #
 
-    def _set_last_state(self, state: Dict[str, Any], reward: float, terminal: bool):
-        self._last_state = state
-        self._last_state[STATE_REWARD_KEY] = reward
-        self._last_state[STATE_TERMINAL_KEY] = terminal
+    @staticmethod
+    def _sanitize_state(state):
+        return json.loads(json.dumps(state, cls=NumpyEncoder))
+
+    def _set_last_state(self, observation: Dict[str, Any], reward: float, terminal: bool):
+        state = self.gym_to_state(observation)
+        state[STATE_REWARD_KEY] = reward
+        state[STATE_TERMINAL_KEY] = terminal
+        self._last_state = self._sanitize_state(state)
         return self._last_state
 
     def _periodic_status_update(self):
@@ -222,7 +235,8 @@ class GymSimulator3(SimulatorSession):
             )
             self._last_status = time()
 
-    def _check_headless(self) -> bool:
+    @property
+    def headless(self) -> bool:
         parser = argparse.ArgumentParser()
         parser.add_argument("--headless", action="store_true", default=False)
         args, unknown = parser.parse_known_args()
