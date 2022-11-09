@@ -187,6 +187,9 @@ class GymSimulator3(abc.ABC):
                     log.debug("iteration_limit reached.")
                     break
 
+        if observation is None:
+            raise RuntimeError("observation found to be None.")
+
         # print a periodic status of iterations and episodes
         self._periodic_status_update()
 

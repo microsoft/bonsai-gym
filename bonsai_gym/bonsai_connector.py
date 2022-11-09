@@ -47,7 +47,7 @@ class BonsaiConnector:
             if not any(isinstance(val, type_) for type_ in allowed_types):
                 raise TypeError(f"Type of state variable not supported: {type(val)}")
 
-    def next_event(self, gym_state):
+    def next_event(self, gym_state) -> BonsaiEvent:
         """Poll the Bonsai platform for the next event and advance the state."""
         self.validate_state(gym_state)
         sim_state = SimulatorState(
@@ -78,6 +78,7 @@ class BonsaiConnector:
                 "Simulator Session unregistered by platform because of ",
                 event.unregister.details,
             )
+        raise TypeError(f"Unknown event type. Received {event.type}")
 
     def close_session(self):
         self.client.session.delete(
