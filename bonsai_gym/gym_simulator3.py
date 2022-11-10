@@ -1,13 +1,10 @@
 import abc
-import argparse
 import json
 import logging
 from time import time
 from typing import Any, Dict
 
-import gym
-from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
-from microsoft_bonsai_api.simulator.generated.models import SimulatorInterface
+import gymnasium as gym
 
 from bonsai_gym.bonsai_connector import BonsaiConnector, BonsaiEventType
 from bonsai_gym.serializers import NumpyEncoder

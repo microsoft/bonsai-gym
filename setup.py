@@ -28,7 +28,7 @@ setup(
     ],
     keywords="bonsai",
     install_requires=[
-        "gym>=0.26,<0.27",
+        "gymnasium>=0.26,<0.27",
         "microsoft-bonsai-api==0.1.4",
         "numpy>=1.18",
     ],
