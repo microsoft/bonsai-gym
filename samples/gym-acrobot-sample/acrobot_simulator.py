@@ -1,9 +1,13 @@
+import argparse
 import logging
 
 from bonsai_gym import GymSimulator3
 
 log = logging.getLogger("gym_simulator")
 log.setLevel(logging.DEBUG)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--headless", action="store_true", default=False)
 
 
 class Acrobot(GymSimulator3):
@@ -32,5 +36,17 @@ class Acrobot(GymSimulator3):
 
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
-    sim = Acrobot(iteration_limit=500)
+    args, _ = parser.parse_known_args()
+    headless = args.headless
+    if headless:
+        log.debug(
+            "Running simulator headlessly, graphical "
+            "environment will not be displayed."
+        )
+    else:
+        log.debug(
+            "Starting simulator with graphical evironment. "
+            "Use --headless to disable."
+        )
+    sim = Acrobot(iteration_limit=500, headless=headless)
     sim.run_gym()

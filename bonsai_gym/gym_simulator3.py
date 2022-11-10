@@ -27,13 +27,15 @@ class GymSimulator3(abc.ABC):
 
     def __init__(
         self,
+        *,
         iteration_limit: int = 0,
         skip_frame: int = 1,
+        headless: bool = False,
     ) -> None:
 
         # create and reset the gym environment
         self._env = gym.make(
-            self.environment_name, render_mode="human" if not self.headless else None
+            self.environment_name, render_mode="human" if not headless else None
         )
         initial_observation, _ = self._env.reset(seed=20)
 
@@ -241,21 +243,3 @@ class GymSimulator3(abc.ABC):
                 "reward so far is {}".format(self.episode_count, self.episode_reward)
             )
             self._last_status = time()
-
-    @property
-    def headless(self) -> bool:
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--headless", action="store_true", default=False)
-        args, unknown = parser.parse_known_args()
-        headless = args.headless
-        if headless:
-            log.debug(
-                "Running simulator headlessly, graphical "
-                "environment will not be displayed."
-            )
-        else:
-            log.debug(
-                "Starting simulator with graphical evironment. "
-                "Use --headless to disable."
-            )
-        return headless
