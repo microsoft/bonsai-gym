@@ -23,6 +23,13 @@ class BonsaiEvent:
 
 
 class BonsaiConnector:
+    """
+    Class that allows communications between Bonsai and Simulation.
+
+    The class initialized by passing the simulation interface as a
+    JSON-serializable dictionary. The dictionary must contain the ``name`` of
+    the sim and the ``timeout`` in seconds as an ``int``.
+    """
     def __init__(self, sim_interface, *, verbose=False):
         client_config = BonsaiClientConfig(enable_logging=verbose)
         self.workspace = client_config.workspace
@@ -42,6 +49,11 @@ class BonsaiConnector:
 
     @staticmethod
     def validate_state(state):
+        """
+        Validate the state.
+
+        The serialization of the state works only on builtin types.
+        """
         allowed_types = [str, int, float]
         for key, val in state.items():
             if not any(isinstance(val, type_) for type_ in allowed_types):
@@ -81,6 +93,7 @@ class BonsaiConnector:
         raise TypeError(f"Unknown event type. Received {event.type}")
 
     def close_session(self):
+        """Unregister gracefully the sim from Bonsai."""
         self.client.session.delete(
             workspace_name=self.workspace,
             session_id=self.registered_session.session_id,

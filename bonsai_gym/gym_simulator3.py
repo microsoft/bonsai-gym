@@ -104,7 +104,7 @@ class GymSimulator3(abc.ABC):
         clients can override this method to provide additional
         reward shaping.
         """
-        observation, reward, done, truncated, info = self._env.step(gym_action)
+        observation, reward, done, _, info = self._env.step(gym_action)
         return observation, reward, done, info
 
     def dispatch_event(self, next_event):
@@ -215,6 +215,7 @@ class GymSimulator3(abc.ABC):
         self.episode_count += 1
         self._last_status = time()
 
+    @property
     def halted(self):
         return False
 
@@ -224,14 +225,17 @@ class GymSimulator3(abc.ABC):
 
     @staticmethod
     def _sanitize_state(state):
+        """Remove non-builtin types from the state."""
         return json.loads(json.dumps(state, cls=NumpyEncoder))
 
     def _set_last_state(
         self, observation: Dict[str, Any], reward: float, terminal: bool
     ):
+        """Store the last state of the sim."""
         state = self.gym_to_state(observation)
         state[STATE_REWARD_KEY] = reward
         state[STATE_TERMINAL_KEY] = terminal
+        state["halted"] = self.halted
         self._last_state = self._sanitize_state(state)
         return self._last_state
 
