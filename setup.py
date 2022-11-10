@@ -21,6 +21,8 @@ setup(
         "Intended Audience :: Developers",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "License :: OSI Approved :: BSD License",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Natural Language :: English",
     ],
@@ -30,6 +32,6 @@ setup(
         "microsoft-bonsai-api==0.1.4",
         "numpy>=1.18",
     ],
-    python_requires=">=3.10",
+    python_requires=">=3.8",
     packages=find_packages(),
 )
