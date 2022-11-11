@@ -128,6 +128,7 @@ class GymSimulator3(abc.ABC):
             log.info("Terminating...")
         finally:
             self.connector.close_session()
+            self._env.close()
             log.info("Simulator finished running")
 
     #

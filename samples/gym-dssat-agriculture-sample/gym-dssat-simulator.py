@@ -7,7 +7,6 @@ gym_lib = "/opt/gym_dssat_pdi/lib/python3.9/site-packages"
 if gym_lib not in sys.path:
     sys.path.append(gym_lib)
 import gym
-from microsoft_bonsai_api.simulator.client import BonsaiClientConfig
 
 from bonsai_gym import GymSimulator3
 
@@ -24,12 +23,11 @@ class GymDSSAT(GymSimulator3):
 
     def __init__(
         self,
-        config: BonsaiClientConfig,
         iteration_limit: int = 0,
         skip_frame: int = 1,
     ) -> None:
         self.mode = "uninitialized"
-        super().__init__(config)
+        super().__init__()
         self.init_mode("all")
 
     def init_mode(self, mode):
@@ -143,6 +141,5 @@ class GymDSSAT(GymSimulator3):
 if __name__ == "__main__":
     # create a brain, openai-gym environment, and simulator
     print("main")
-    config = BonsaiClientConfig(argv=sys.argv)
-    sim = GymDSSAT(config)
+    sim = GymDSSAT()
     sim.run_gym()
