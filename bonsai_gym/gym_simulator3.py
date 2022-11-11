@@ -101,7 +101,8 @@ class GymSimulator3(abc.ABC):
         clients can override this method to provide additional
         reward shaping.
         """
-        observation, reward, done, _, info = self._env.step(gym_action)
+        observation, reward, truncated, terminated, info = self._env.step(gym_action)
+        done = truncated or terminated
         return observation, reward, done, info
 
     def dispatch_event(self, next_event):
@@ -180,11 +181,10 @@ class GymSimulator3(abc.ABC):
             )
 
             # episode limits
-            if self._iteration_limit > 0:
-                if self.iteration_count >= self._iteration_limit:
-                    done = True
-                    log.debug("iteration_limit reached.")
-                    break
+            if self.iteration_count >= self._iteration_limit > 0:
+                done = True
+                log.debug("iteration_limit reached.")
+                break
 
         if observation is None:
             raise RuntimeError("observation found to be None.")
