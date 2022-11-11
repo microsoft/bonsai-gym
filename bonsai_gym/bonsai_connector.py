@@ -8,6 +8,8 @@ from microsoft_bonsai_api.simulator.generated.models import (
     SimulatorState,
 )
 
+from bonsai_gym.logger import log
+
 
 class BonsaiEventType(Enum):
     IDLE = "Idle"
@@ -21,6 +23,9 @@ class BonsaiEvent:
     event_type: BonsaiEventType
     event_content: Optional[Dict[str, Union[str, dict]]]
 
+    def __repr__(self):
+        return f"{self.event_type}: {self.event_content}"
+
 
 class BonsaiConnector:
     """
@@ -30,6 +35,7 @@ class BonsaiConnector:
     JSON-serializable dictionary. The dictionary must contain the ``name`` of
     the sim and the ``timeout`` in seconds as an ``int``.
     """
+
     def __init__(self, sim_interface, *, verbose=False):
         client_config = BonsaiClientConfig(enable_logging=verbose)
         self.workspace = client_config.workspace
@@ -44,7 +50,9 @@ class BonsaiConnector:
             workspace_name=self.workspace,
             body=reg_info,
         )
-        print(f"created session with session_id {self.registered_session.session_id}")
+        log.info(
+            f"Created session with session_id {self.registered_session.session_id}"
+        )
         self.sequence_id = 1
 
     @staticmethod
@@ -94,6 +102,7 @@ class BonsaiConnector:
 
     def close_session(self):
         """Unregister gracefully the sim from Bonsai."""
+        log.debug("Closing session...")
         self.client.session.delete(
             workspace_name=self.workspace,
             session_id=self.registered_session.session_id,

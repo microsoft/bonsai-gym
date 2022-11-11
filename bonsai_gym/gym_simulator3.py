@@ -1,6 +1,5 @@
 import abc
 import json
-import logging
 from time import time
 from typing import Any, Dict
 
@@ -9,10 +8,7 @@ import gymnasium as gym
 from bonsai_gym.bonsai_connector import BonsaiConnector, BonsaiEventType
 from bonsai_gym.serializers import NumpyEncoder
 
-logFormatter = "[%(asctime)s][%(levelname)s] %(message)s"
-logging.basicConfig(format=logFormatter, datefmt="%Y-%m-%d %H:%M:%S")
-log = logging.getLogger(__name__)
-log.setLevel(level=logging.DEBUG)
+from bonsai_gym.logger import log
 
 STATE_REWARD_KEY = "_gym_reward"
 STATE_TERMINAL_KEY = "_gym_terminal"
@@ -127,7 +123,7 @@ class GymSimulator3(abc.ABC):
             while True:
                 next_event = self.connector.next_event(self.get_state())
                 self.dispatch_event(next_event)
-                print(next_event.event_type, next_event.event_content)
+                log.debug(next_event)
         except KeyboardInterrupt:
             log.info("Terminating...")
         finally:

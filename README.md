@@ -71,7 +71,6 @@ the ID.
 The second is `SIM_WORKSPACE`. You can find this in the URL after `/workspaces/` once
 you are logged in to the platform.
 
-There is also an optional `SIM_API_HOST` key, but if it is not set it will default to `https://api.bons.ai`.
 
 If you're launching your simulator from the command line, make sure that you have these two
 environment variables set. If you like, you could use the following example script:
@@ -81,6 +80,11 @@ export SIM_WORKSPACE=<your-workspace-id>
 export SIM_ACCESS_KEY=<your-access-key>
 python3 my_sim.py
 ```
+
+### Logging
+
+You can enable debug logs by setting the ``BONSAI_GYM_DEBUG`` environment
+variable. Please not that **any** value will turn on debug logs.
 
 ## Rewards and Terminals
 
