@@ -12,9 +12,9 @@ setup(
     description="A python library for integrating Bonsai BRAIN \
     with Open AI Gym environments.",
     long_description=open("README.md").read(),
-    url="https://bons.ai",
-    author="Bonsai, Inc.",
-    author_email="opensource@bons.ai",
+    url="https://www.microsoft.com/en-us/ai/autonomous-systems-project-bonsai",
+    author="Microsoft Project Bonsai",
+    author_email="bonsaiq@microsoft.com",
     license="BSD",
     classifiers=[
         "Development Status :: 4 - Beta",
