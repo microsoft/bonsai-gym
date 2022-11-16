@@ -62,10 +62,24 @@ class BonsaiConnector:
 
         The serialization of the state works only on builtin types.
         """
-        allowed_types = [str, int, float]
-        for key, val in state.items():
-            if not any(isinstance(val, type_) for type_ in allowed_types):
+        allowed_types = (bool, float, int, list)
+
+        def has_invalid_type(x):
+            """
+            Return False when x is not an allowed type.
+
+            We need to use ``type`` instead of ``isinstance`` because of:
+            https://github.com/Azure/msrest-for-python/issues/257
+            """
+            return type(x) not in allowed_types
+
+        for val in state.values():
+            if has_invalid_type(val):
                 raise TypeError(f"Type of state variable not supported: {type(val)}")
+            if isinstance(val, list):
+                for item in val:
+                    if has_invalid_type(item):
+                        raise TypeError(f"Element in list not supported: {type(val)}")
 
     def next_event(self, gym_state) -> BonsaiEvent:
         """Poll the Bonsai platform for the next event and advance the state."""
