@@ -109,7 +109,7 @@ class GymSimulator3(abc.ABC):
         elif next_event.event_type == BonsaiEventType.EPISODE_FINISH:
             self.episode_finish(next_event.event_content)
         elif next_event.event_type == BonsaiEventType.IDLE:
-            print("Idling")
+            log.info("Idling")
         else:
             raise RuntimeError(
                 f"Unexpected BonsaiEventType. Got {next_event.event_type}"
