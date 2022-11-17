@@ -61,8 +61,10 @@ class BonsaiConnector:
         Validate the state.
 
         The serialization of the state works only on builtin types.
+
+        TODO: consider whether nested list/dict should be evaluated
         """
-        allowed_types = (bool, float, int, list)
+        allowed_types = (bool, dict, float, int, list)
 
         def has_invalid_type(x):
             """
@@ -80,6 +82,10 @@ class BonsaiConnector:
                 for item in val:
                     if has_invalid_type(item):
                         raise TypeError(f"Element in list not supported: {type(val)}")
+            elif isinstance(val, dict):
+                for nested_val in val.values():
+                    if has_invalid_type(nested_val):
+                        raise TypeError(f"Element in dict not supported: {type(val)}")
 
     def next_event(self, gym_state) -> BonsaiEvent:
         """Poll the Bonsai platform for the next event and advance the state."""
