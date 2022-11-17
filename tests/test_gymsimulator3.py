@@ -31,7 +31,7 @@ def gymsimulator3(mocker):
 
 
 def test_episode_start(gymsimulator3):
-    assert not gymsimulator3.episode_start({})['halted']
+    assert not gymsimulator3.episode_start({})["halted"]
 
 
 def test_get_interface(gymsimulator3):
@@ -45,9 +45,9 @@ def test_get_interface(gymsimulator3):
 def test_episode_step(gymsimulator3):
     gymsimulator3.episode_start({})
     action = {"command": 0}
-    assert not gymsimulator3.episode_step(action)['halted']
+    assert not gymsimulator3.episode_step(action)["halted"]
 
 
 def test_episode_finish(gymsimulator3):
     gymsimulator3.episode_start({})
-    assert gymsimulator3.episode_finish('stopped') is None
+    assert gymsimulator3.episode_finish("stopped") is None
