@@ -1,7 +1,8 @@
 import argparse
 import logging
-from typing import Dict, Any, Union
+from typing import Dict, Union, Any
 from time import time
+import requests
 
 
 import gym
@@ -106,6 +107,51 @@ class GymSimulator3(SimulatorSession):
         observation, reward, done, info = self._env.step(gym_action)
         return observation, reward, done, info
 
+    def run_random(
+        self, num_episodes: int = 10, num_iterations: int = 200, render: bool = False
+    ):
+
+        for episode in range(num_episodes):
+            terminal = False
+            iteration = 0
+            while not terminal:
+                iteration += 1
+                random_action = self._env.action_space.sample()
+                _, reward, terminal, _ = self._env.step(random_action)
+                log.info(
+                    f"Episode: #{episode}, iteration: #{iteration}, reward: {reward}, Terminal: {terminal}"
+                )
+                if iteration > num_iterations - 1 or terminal:
+                    terminal = True
+                if not render or self._headless:
+                    if "human" in self._env.metadata["render.modes"]:
+                        self._env.render()
+
+    def run_exported_brain(
+        self,
+        num_episodes: int = 500,
+        num_iterations: int = 200,
+        render: bool = False,
+        exported_brain_url: str = "http://localhost:5000",
+        config: Union[Dict[str, Any], None] = None,
+    ):
+
+        prediction_endpoint = f"{exported_brain_url}/v1/prediction"
+        for _ in range(num_episodes):
+            self.episode_start(config=config)
+            terminal = False
+            iteration = 0
+            while not terminal:
+                iteration += 1
+                response = requests.get(prediction_endpoint, json=self.get_state())
+                action = response.json()
+                state = self.episode_step(action)
+                if iteration > num_iterations - 1 or state['_gym_terminal']:
+                    terminal = True
+                if not render or self._headless:
+                    if "human" in self._env.metadata["render.modes"]:
+                        self._env.render()
+
     def run_gym(self):
         """
         runs the simulation until cancelled or finished
@@ -128,13 +174,9 @@ class GymSimulator3(SimulatorSession):
     def get_state(self):
         return self._last_state
 
-    def episode_start(self, config: Dict[str, Any]):
+    def episode_start(self, config: Union[Dict[str, Any], None]):
         self.iteration_count = 0
         self.episode_reward = 0
-
-        # optional configuration arguments for open-ai-gym
-        if "iteration_limit" in config:
-            self._iteration_limit = config["iteration_limit"]
 
         # initial observation
         observation = self.gym_episode_start(config)

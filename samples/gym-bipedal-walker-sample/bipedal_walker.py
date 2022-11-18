@@ -71,17 +71,18 @@ class BipedalWalkerSimulator(GymSimulator3):
         self, action: Dict[str, Union[int, float]]
     ) -> List[Union[int, float]]:
         return [
-            action['leg_1_torque'][0], # hip joint 1
-            action['leg_1_torque'][1], # knee joint 1
-            action['leg_2_torque'][0], # hip joint 2
-            action['leg_2_torque'][1], # knee joint 2
+            action["leg_1_torque"][0],  # hip joint 1
+            action["leg_1_torque"][1],  # knee joint 1
+            action["leg_2_torque"][0],  # hip joint 2
+            action["leg_2_torque"][1],  # knee joint 2
         ]
 
     def episode_start(self, config: Dict[str, Any]) -> Any:
         logger.info(f"Starting an episode with parameters {config}.")
-        self._parameters = config
-        custom_env = cast(Any, self._env)
-        custom_env.env.set_environment(**config)
+        if config:
+            self._parameters = config
+            custom_env = cast(Any, self._env)
+            custom_env.env.set_environment(**config)
         return super().episode_start(config)
 
     def episode_finish(self, reason: str) -> None:
@@ -93,3 +94,16 @@ if __name__ == "__main__":
     config = BonsaiClientConfig(argv=sys.argv)
     sim = BipedalWalkerSimulator(config)
     sim.run_gym()
+    #sim.run_random()
+    '''
+    sim.run_exported_brain(
+        num_episodes=2,
+        num_iterations=2000,
+        render=True,
+        exported_brain_url="http://localhost:5006",
+        config={
+            "stump_height": 1,
+            "obstacle_spacing": 5
+        }
+    )
+    '''
