@@ -1,5 +1,4 @@
 import logging
-import sys
 
 from bonsai_gym import GymSimulator3
 

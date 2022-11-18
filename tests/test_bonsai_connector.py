@@ -3,7 +3,6 @@ import pytest
 
 from bonsai_gym.bonsai_connector import BonsaiConnector
 
-
 states = (
     ({"numpy": np.float_(10)}, False),
     ({"numpy": np.int_(10)}, False),

@@ -6,9 +6,8 @@ from typing import Any, Dict
 import gymnasium as gym
 
 from bonsai_gym.bonsai_connector import BonsaiConnector, BonsaiEventType
-from bonsai_gym.serializers import NumpyEncoder
-
 from bonsai_gym.logger import log
+from bonsai_gym.serializers import NumpyEncoder
 
 STATE_REWARD_KEY = "_gym_reward"
 STATE_TERMINAL_KEY = "_gym_terminal"
