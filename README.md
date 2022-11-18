@@ -2,10 +2,6 @@
 
 A python library for integrating Bonsai brains with Open AI Gym environments.
 
-## Bonsai Gym
-
-A python library for integrating Bonsai BRAIN with Open AI Gym environments.
-
 ## Installation
 
 ```bash
@@ -84,7 +80,7 @@ python3 my_sim.py
 ### Logging
 
 You can enable debug logs by setting the ``BONSAI_GYM_DEBUG`` environment
-variable. Please not that **any** value will turn on debug logs.
+variable. Please note that **any** value will turn on debug logs.
 
 ## Rewards and Terminals
 
